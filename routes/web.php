@@ -19,3 +19,8 @@ Route::get('/', function () {
 Route::get('dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::get('courses', function () {
+    return view('courses.index');
+})->name('courses');
+
