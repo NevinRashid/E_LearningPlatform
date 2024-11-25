@@ -99,7 +99,7 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('courses.index') }}">
+              <a class="nav-link" href="{{ route('courses') }}">
                 <span class="menu-title">Courses</span>
                 <i class="mdi mdi-book-open-page-variant menu-icon"></i>
               </a>

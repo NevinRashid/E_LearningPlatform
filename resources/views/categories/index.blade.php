@@ -7,5 +7,8 @@
         </span> Categories
     </h3>
 </div>
-
+<a href="{{ route('categories.create') }}" type="button" class="btn btn-gradient-primary btn-fw" style="margin-top:20px;">Add new category</a>
 @endsection
+
+
+

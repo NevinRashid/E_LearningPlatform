@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,11 +19,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('categories',CategoryController::class);
+
 Route::get('dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::get('courses', function () {
-    return view('courses.index');
-})->name('courses');
+Route::resource('courses', CourseController::class);
+Route::resource('users', UserController::class);
+
 
