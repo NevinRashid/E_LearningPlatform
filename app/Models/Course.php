@@ -16,7 +16,14 @@ class Course extends Model
         'capacity',
         'start_date',
         'category_id',
+        'teacher_id',   // معرف المدرس المسؤول عن المادة
+        'duration',     // مدة المادة (بالساعات أو الأيام)
         ];
+        
+        public function photos()
+        {
+            return $this->hasMany(Photo::class);
+        }
 
     public function category(){
         return $this->belongsTo(Category::class);
@@ -37,4 +44,5 @@ class Course extends Model
     public function users() {
         return $this->belongsToMany(User::class,'course_user','course_id','user_id');
     }
+    
 }
