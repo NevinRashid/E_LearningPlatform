@@ -30,3 +30,7 @@ Route::resource('courses', CourseController::class);
 Route::resource('users', UserController::class);
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

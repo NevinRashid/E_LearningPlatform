@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Models\Course;
 use Illuminate\Http\Request;
@@ -29,9 +30,16 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        
+        $validatedData=$request->validated();
+        if ($request->hasFile('image')) {
+            $file=$request->file('image');
+            $path = UploadImage($file, "categories",'category');
+            $validatedData['image'] = $path;
+        }
+        Category::create($validatedData);
+        return redirect()->route('categories.index')->with('success', 'Category created successfully!');
     }
 
     /**
@@ -39,30 +47,42 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('categories.show');
+        return view('categories.show', compact('category'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Category $category)
     {
-        //
+        return view('categories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CategoryRequest $request, Category $category)
     {
-        //
+        $validatedData=$request->validated();
+        if($request->hasFile('image')){
+            $file = $request->file('image');
+            $path = UploadImage($file,'categories','category');    
+            $validatedData['image'] = $path;
+        }
+        $category->update([
+            'name' => $validatedData['name'],
+            'image' => $validatedData['image'],
+            ]);
+        return redirect()->route('categories.index')->with('success', 'Category updated successfully!');
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('categories.index')->with('success', 'Category deleted successfully!');
     }
 }

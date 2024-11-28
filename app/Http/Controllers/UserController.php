@@ -29,7 +29,7 @@ class UserController extends Controller
     if ($request->hasFile('image')) {
         $file = $request->file('image');
         // استخدم دالة uploadImage لتخزين الصورة
-        $path = uploadImage($file, "images/users");
+        $path = UploadImage($file, "images/users");
         // أضف مسار الصورة إلى البيانات المرسلة
         $validatedData['image'] = $path;
     }
