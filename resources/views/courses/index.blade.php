@@ -8,7 +8,7 @@
     </h3>
 </div>
 
-<button type="button" class="btn btn-gradient-primary btn-fw" style="margin-top:20px;">Add course</button>
+<a href="{{ route('courses.create') }}" class="btn btn-gradient-primary btn-fw" style="margin-top:20px;">Add course</a>
 
 
 @endsection
