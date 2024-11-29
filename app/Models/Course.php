@@ -19,7 +19,16 @@ class Course extends Model
         'teacher_id',   // معرف المدرس المسؤول عن المادة
         'duration',     // مدة المادة (بالساعات أو الأيام)
         ];
-        
+
+    public function up(){
+    Schema::create('courses', function (Blueprint $table) {
+        $table->id();
+        $table->string('title');
+        $table->text('description');
+        $table->timestamps();
+    });
+}
+
         public function photos()
         {
             return $this->hasMany(Photo::class);
@@ -46,3 +55,20 @@ class Course extends Model
     }
     
 }
+
+class Review extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'comment',
+        'rating',
+        'course_id',
+    ];
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
+}
+

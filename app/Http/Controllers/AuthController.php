@@ -1,5 +1,3 @@
-<?php
-
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -8,10 +6,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
-
 class AuthController extends Controller
 {
-   
     public function login(Request $request)
     {
         $request->validate([
@@ -21,15 +17,18 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        // باستخدام Sanctum
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $token = $user->createToken('YourAppName')->plainTextToken;
-            return response()->json(['token' => $token]);
+            return response()->json([
+                'message' => 'Login successful',
+                'token' => $token,
+            ]);
         }
+
+        return response()->json(['message' => 'Unauthorized'], 401);
     }
 
-   
     public function register(Request $request)
     {
         $request->validate([
@@ -44,20 +43,21 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // باستخدام Sanctum
+        // استخدام Sanctum
         $token = $user->createToken('YourAppName')->plainTextToken;
 
+        return response()->json([
+            'message' => 'User registered successfully',
+            'token' => $token,
+        ]);
     }
 
-    
     public function logout(Request $request)
     {
-        // باستخدام Sanctum
         $request->user()->currentAccessToken()->delete();
-
+        return response()->json(['message' => 'Logged out successfully']);
     }
 
-   
     public function user(Request $request)
     {
         return response()->json($request->user());
