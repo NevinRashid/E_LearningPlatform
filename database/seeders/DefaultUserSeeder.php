@@ -9,14 +9,14 @@ class DefaultUserSeeder extends Seeder
 {
     public function run()
     {
-        $user = User::create([
+        $user = User::firstOrCreate([
             'name' => 'Default Admin',
             'email' => 'admin@example.com',
             'password' => bcrypt('12345678'),  
             'image' => 'defaultAdmin.png',
             'phone' => '0000000000',
         ]);
-        $user1 = User::create([
+        $user1 = User::firstOrCreate([
             'name' => 'Default Trainer',
             'email' => 'trainer@example.com',
             'password' => bcrypt('12345678'),  
@@ -24,7 +24,7 @@ class DefaultUserSeeder extends Seeder
             'phone' => '0000000000',
 
         ]);
-        $user2 = User::create([
+        $user2 = User::firstOrCreate([
             'name' => 'Default Student',
             'email' => 'student@example.com',
             'password' => bcrypt('12345678'),  
@@ -33,7 +33,7 @@ class DefaultUserSeeder extends Seeder
 
 
         ]);
-        $user3 = User::create([
+        $user3 = User::firstOrCreate([
             'name' => 'Default User',
             'email' => 'user@example.com',
             'password' => bcrypt('12345678'),  

@@ -56,9 +56,11 @@
 </div>
 <div class="container my-5">
     <div class="row">
-        <div class="col">
-            <a href="{{ route('categories.create') }}" class="btn btn-gradient-primary btn-lg mb-4 " >Add new category</a>
-        </div>
+        @if (auth()->user()->hasRole('admin'))  
+            <div class="col">
+                <a href="{{ route('categories.create') }}" class="btn btn-gradient-primary btn-lg mb-4 ">Add new category</a>
+            </div>
+        @endif
     </div>
 
     <!-- عرض التصنيفات كبطاقات -->
@@ -69,19 +71,20 @@
                     <img src="{{ asset('imgs/' . $category->image) }}" class="card-img-top" alt="category image">
                     <div class="card-body">
                         <h5 class="card-title">{{ $category->name }}</h5>
-                        <div class="d-flex justify-content-center gap-2">
-                            <a href="{{ route('categories.edit', $category) }}" class="btn btn-outline-info btn-sm">edit</a>
-                            <a href="{{ route('categories.show', $category) }}" class="btn btn-outline-success btn-sm">show</a>
-                            <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="d-inline">
+                        @if (auth()->user()->hasRole('admin'))  
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="{{ route('categories.edit', $category) }}" class="btn btn-outline-info btn-sm">edit</a>
+                                <a href="{{ route('categories.show', $category) }}" class="btn btn-outline-success btn-sm">show</a>
+                                <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure to delete this category?')">delete</button>
-                            </form>
-                        </div>
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure to delete this category?')">delete</button>
+                                </form>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
-
         @endforeach 
     </div>
 </div>
