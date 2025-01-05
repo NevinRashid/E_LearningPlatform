@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,9 +34,14 @@ Route::get('student', function () {
 
 Route::resource('courses', CourseController::class);
 Route::resource('users', UserController::class);
+<<<<<<< HEAD
 Route::get('trainers', function () {
     return view('trainers.index');
 })->name('trainers.name');
+=======
+Route::resource('files', FileController::class);
+
+>>>>>>> bc634427f111bde8ccb8ffe1f50940d2d65cf16a
 
 
 Auth::routes();

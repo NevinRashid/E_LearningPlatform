@@ -15,5 +15,5 @@ class DashboardController extends Controller
         $trainerCount=User::role('trainer')->count();
         $courseCount=Course::count();
         return view('dashboard',compact('studentCount','trainerCount','courseCount'));
-    }
+    }   
 }

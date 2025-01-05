@@ -29,6 +29,10 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
+            "app/Helpers/UploadFile.php",
+            "app/Helpers/getFileExtension.php",
+            "app/Helpers/getFileType.php",
+            "app/Helpers/storageFolder.php",
             "app/Helpers/UploadImage.php"
             ]
     },

@@ -61,7 +61,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view('categories.show', compact('category'));
+        $courses=Course::with('category')->where('category_id',$category->id)->get();
+        return view('categories.show', compact('category','courses'));
     }
 
     /**
