@@ -6,12 +6,19 @@ use App\Models\Course;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\CourseRequest;
-
+use App\Models\File;
 class CourseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('check_user_role');
+    }
+
     public function index()
     {
         $courses = Course::all();
@@ -35,6 +42,8 @@ class CourseController extends Controller
         // البيانات المدخلة تكون متاحة هنا بعد التحقق منها
         $course = Course::create($request->validated());
         $course->users()->attach($request->input('users_ids',[]));
+        $category=Category::where('id',$course->category_id)->first();
+        $category->courses()->save($course);
         return redirect()->route('courses.index')->with('success', 'Course created successfully.');
     }
     /**
@@ -42,7 +51,8 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        return view('courses.show', compact('course'));
+        $files=File::with('course')->where('course_id',$course->id)->get();
+        return view('courses.show', compact('course','files'));
     }
 
     /**

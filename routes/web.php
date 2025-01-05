@@ -2,8 +2,12 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,20 +21,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.register');
 });
 
 Route::resource('categories',CategoryController::class);
 
-Route::get('dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::get('dashboard', [DashboardController::class,'getDashboardCounts'])->name('dashboard')->middleware('check_user_role');
+
+Route::get('student', function () {
+    return view('student');
+})->name('student');
 
 Route::resource('courses', CourseController::class);
 Route::resource('users', UserController::class);
+Route::get('trainers', function () {
+    return view('trainers.index');
+})->name('trainers.name');
 
-
-
+Route::resource('files', FileController::class);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
