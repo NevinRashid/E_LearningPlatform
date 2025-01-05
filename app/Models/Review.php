@@ -28,6 +28,11 @@ class Course extends Model
     {
         return $this->hasMany(Review::class);
     }
+    
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }
 
 

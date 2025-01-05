@@ -2,26 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-    public function store(Request $request, $courseId)
-{
-    $request->validate([
-        'comment' => 'required|string',
-        'rating' => 'required|integer|min:1|max:5',
-    ]);
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'course_id' => 'required|exists:courses,id',
+            'comment' => 'required|string|max:500',
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+    
+        $review = Review::create([
+            'user_id' => auth()->id(),
+            'course_id' => $validated['course_id'],
+            'comment' => $validated['comment'],
+            'rating' => $validated['rating'],
+        ]);
 
-    $course = Course::findOrFail($courseId);
-    $review = new Review([
-        'comment' => $request->input('comment'),
-        'rating' => $request->input('rating'),
-    ]);
+        $course->reviews()->save($review);
 
-    $course->reviews()->save($review);
-
-    return response()->json($review, 201);
-}
-
-}
+        // استرجاع الرد كاستجابة JSON
+        return response()->json([
+            'message' => 'Review added successfully.',
+            'review' => $review,
+        ], 201);
+    }
+} 

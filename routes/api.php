@@ -32,5 +32,13 @@ Route::get('/courses', [CourseController::class, 'index']);
 Route::post('/photos', [PhotoController::class, 'store']);
 
 Route::apiResource('courses', CourseController::class);
-Route::post('courses/{course}/reviews', [ReviewController::class, 'store']);
+
+Route::post('/courses/{courseId}/reviews', [ReviewController::class, 'store']);
+
+Route::middleware(['role:visitor'])->group(function () {
+    Route::get('/courses', 'CourseController@index')->name('courses.index');
+});
+
+Route::middleware('auth:sanctum')->post('/reviews', [ReviewController::class, 'store']);
+
 });
