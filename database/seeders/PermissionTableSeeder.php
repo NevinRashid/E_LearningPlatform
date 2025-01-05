@@ -58,10 +58,10 @@ class PermissionTableSeeder extends Seeder
             Permission::firstOrCreate(['name' => $permission]); 
         }
 
-        $adminRole = Role::create(['name' => 'admin']);
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $adminRole->givePermissionTo($permissions);
 
-        $trainerRole = Role::create(['name' => 'trainer']);
+        $trainerRole = Role::firstOrCreate(['name' => 'trainer']);
         $trainerRole->givePermissionTo([
             'course-list',
             'course-create',
@@ -85,7 +85,7 @@ class PermissionTableSeeder extends Seeder
             'file-delete',
         ]);
 
-        $studentRole = Role::create(['name' => 'student']);
+        $studentRole = Role::firstOrCreate(['name' => 'student']);
         $studentRole->givePermissionTo([
             'course-list',
             'category-list',
@@ -105,7 +105,7 @@ class PermissionTableSeeder extends Seeder
             'file-delete',
         ]);
 
-        $userRole = Role::create(['name' => 'user']);
+        $userRole = Role::firstOrCreate(['name' => 'user']);
         $userRole->givePermissionTo([
             'course-list',
             'category-list',

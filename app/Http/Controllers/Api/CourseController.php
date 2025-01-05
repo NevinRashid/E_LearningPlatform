@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Course;
-// use E_LearningPlatform\app\Models\User;
+use app\Models\User;
 
 
 class CourseController extends Controller
@@ -14,7 +14,9 @@ class CourseController extends Controller
 
     public function register(Course $course)
     {
-        $user = Auth::user();
+        $user_id = Auth::user()->id;
+        $user = User::find($user_id);
+
 
         if ($user->courses()->where('course_id', $course->id)->exists()) {
             return response()->json(['message' => 'You are already registered for this course.'], 400);
@@ -27,7 +29,8 @@ class CourseController extends Controller
 
     public function unregister(Course $course)
     {
-        $user = Auth::user();
+        $user_id = Auth::user()->id;
+        $user = User::find($user_id);
 
         if (!$user->courses()->where('course_id', $course->id)->exists()) {
             return response()->json(['message' => 'You are not registered for this course.'], 400);
