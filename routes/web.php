@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,6 +31,7 @@ Route::get('dashboard', function () {
 
 Route::resource('courses', CourseController::class);
 Route::resource('users', UserController::class);
+Route::resource('files', FileController::class);
 
 
 
