@@ -24,3 +24,6 @@ Route::get('dashboard', function () {
 
 Route::resource('courses', CourseController::class);
 Route::resource('users', UserController::class);
+Route::get('courses', function () {
+    return view('courses.index');
+})->name('courses');
