@@ -26287,3 +26287,28 @@ dl li {
   flex-grow: 1;
 }
 /*# sourceMappingURL=maps/style.css.map */
+input[type="radio"]{
+  display:none;
+}
+.rating-container{
+  display: flex;
+  flex-direction: row-reverse; /* Reverse the order of the stars */
+  justify-content: flex-end;
+}
+.star {
+  font-size: 30px;
+  color: #ddd; /* Gray color for unselected stars */
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+/* Change color when the radio button is checked (for selected stars) */
+input[type="radio"]:checked ~ label {
+  color: gold; /* Yellow color for selected stars */
+}
+
+/* Highlight stars on hover */
+input[type="radio"]:not(:checked) ~ label:hover,
+input[type="radio"]:not(:checked) ~ label:hover ~ label {
+  color: gold; 
+}
