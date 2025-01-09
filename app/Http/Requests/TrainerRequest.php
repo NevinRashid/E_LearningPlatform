@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class TrainerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,6 +27,10 @@ class UserRequest extends FormRequest
             'phone'     =>'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',
             'image'    => 'mimes:jpg,jpeg,png|max:2048',
+            'role'    => 'sometimes|string|max:255',
+            'courses_ids' => 'required|array',
+            'courses_ids.*'=>'required|exists:courses,id',
+
         ];
     }
     public function messages()
@@ -34,8 +38,9 @@ class UserRequest extends FormRequest
         return [
             'name'        => 'The name is required.',
             'email'       => 'The email is required.',
-            'phon'       => 'The phon is required.',
-            'password'    => 'The password is required.',
+            'phone'       => 'The phon is required.',
+            'password.min'    => 'The password is required to be more than 8 characters',
+            'password.confirmed'    => 'The password does not match',
             'image'       => 'The image is required.',
         ];
     }
