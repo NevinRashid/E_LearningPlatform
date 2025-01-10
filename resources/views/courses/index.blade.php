@@ -7,9 +7,8 @@
         </span> Courses
     </h3>
 </div>
-@if (auth()->user()->hasRole('admin'))  
-    <a href="{{ route('courses.create') }}" class="btn btn-gradient-primary btn-fw" style="margin-top:20px;">Add course</a>
-@endif
+
+<a href="{{ route('courses.create') }}" class="btn btn-gradient-primary btn-fw" style="margin-top:20px;">Add course</a>
 
 
 @endsection
