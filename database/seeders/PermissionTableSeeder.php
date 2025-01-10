@@ -10,6 +10,7 @@ class PermissionTableSeeder extends Seeder
 {
     public function run()
     {
+    
         $permissions = [
             'user-list',
             'user-create',
@@ -114,4 +115,4 @@ class PermissionTableSeeder extends Seeder
             'trainer-list'
         ]);
     }
-}
+    }
