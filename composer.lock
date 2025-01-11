@@ -3016,6 +3016,7 @@
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
                 "source": "https://github.com/bobthecow/psysh/tree/v0.12.7"
+
             },
             "time": "2024-12-10T01:58:33+00:00"
         },
@@ -3937,6 +3938,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/http-kernel/zipball/c5647393c5ce11833d13e4b70fff4b571d4ac710",
                 "reference": "c5647393c5ce11833d13e4b70fff4b571d4ac710",
+
                 "shasum": ""
             },
             "require": {
@@ -4022,6 +4024,7 @@
             "homepage": "https://symfony.com",
             "support": {
                 "source": "https://github.com/symfony/http-kernel/tree/v6.4.17"
+
             },
             "funding": [
                 {
@@ -4038,6 +4041,7 @@
                 }
             ],
             "time": "2024-12-31T14:49:31+00:00"
+
         },
         {
             "name": "symfony/mailer",
@@ -5947,6 +5951,7 @@
         {
             "name": "laravel/pint",
             "version": "v1.19.0",
+
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
@@ -5971,6 +5976,7 @@
                 "larastan/larastan": "^2.9.12",
                 "laravel-zero/framework": "^10.48.25",
                 "mockery/mockery": "^1.6.12",
+
                 "nunomaduro/termwind": "^1.17.0",
                 "pestphp/pest": "^2.36.0"
             },
@@ -6009,6 +6015,7 @@
                 "source": "https://github.com/laravel/pint"
             },
             "time": "2024-12-30T16:20:10+00:00"
+
         },
         {
             "name": "laravel/sail",
@@ -7818,6 +7825,7 @@
             ],
             "support": {
                 "source": "https://github.com/spatie/backtrace/tree/1.7.1"
+
             },
             "funding": [
                 {
@@ -7830,6 +7838,7 @@
                 }
             ],
             "time": "2024-12-02T13:28:15+00:00"
+
         },
         {
             "name": "spatie/error-solutions",

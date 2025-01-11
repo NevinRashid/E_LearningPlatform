@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('course_id')->constrained('courses');
-            $table->decimal('rating_value',3,2)->nullable();
+            $table->tinyInteger('rating_value')->nullable();
             $table->timestamps();
         });
     }

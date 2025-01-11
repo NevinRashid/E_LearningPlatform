@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\TrainerRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Course;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 
-class UserController extends Controller
+class StudentController extends Controller
 {
     use HasRoles;
 
@@ -20,27 +21,28 @@ class UserController extends Controller
         $this->middleware('check_user_role');
     }
 
-    // عرض قائمة المستخدمين
+    // عرض المدربين
     public function index()
     {
-        $users = User::all();
-        return view('users.index', compact('users'));
+        $students = User::role('student')->get();
+        return view('students.index', compact('students'));
     }
 
-    // عرض نموذج إنشاء مستخدم جديد
+    // عرض نموذج إنشاء مدرب جديد
     public function create()
     {
-        return view('users.create');
+        $courses=Course::all();
+        return view('students.create',compact('courses'));
     }
 
-    // تخزين مستخدم جديد
-    public function store(UserRequest $request)
+    // تخزين مدرب جديد
+    public function store(TrainerRequest $request)
 {
     $validatedData = $request->validated();
     if ($request->hasFile('image')) {
         $file = $request->file('image');
         // استخدم دالة uploadImage لتخزين الصورة
-        $path = UploadImage($file, "images/users");
+        $path = UploadImage($file, "images/students");
         // أضف مسار الصورة إلى البيانات المرسلة
         $validatedData['image'] = $path;
     }
@@ -49,66 +51,73 @@ class UserController extends Controller
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
             'password' => bcrypt($validatedData['password']), // تأكد من تشفير كلمة المرور
             'image' => $validatedData['image'] , // إذا لم تكن الصورة موجودة، اجعلها null
         ]);
-        $user->courses()->attach($validatedData->input('courses_ids',[]));
+        $user->assignRole('student');
+        $user->courses()->attach($validatedData['courses_ids']);
         // إعادة توجيه إلى صفحة المستخدمين مع رسالة نجاح
-        return redirect('/users')->with('success', 'User created successfully!');
+        return redirect('/students')->with('success', 'Student created successfully!');
     }
     else{
-        abort(403,'you do not have permissions to add a User');
+        abort(403,'you do not have permissions to add a Student');
     }
 }
 
     // عرض تفاصيل مستخدم معين
-    public function show(User $user)
+    public function show(User $student)
     {
-        return view('users.show', compact('user'));
+        return view('students.show', compact('student'));
     }
 
     // عرض نموذج تعديل مستخدم معين
-    public function edit(User $user)
+    public function edit(User $student)
     {
-        return view('users.edit', compact('user'));
+        $courses=Course::all();
+        return view('students.edit', compact('student','courses'));
     }
 
     // تحديث مستخدم معين
-    public function update(UserRequest $request, User $user)
+    public function update(TrainerRequest $request, User $student)
     {
-
         if($request->user()->hasRole('admin')){
             $validatedData = $request->validated();
-            $user->name = $validatedData->name;
-            $user->email = $validatedData->email;
+            $student->name = $validatedData['name'];
+            $student->email = $validatedData['email'];
             if ($request->filled('password')) {
-                $user->password = Hash::make($validatedData->password);
+                $student->password = Hash::make($validatedData['password']);
             }
             // معالجة الصورة إذا تم رفعها
             if ($request->hasFile('image')) {
                 // يمكنك حذف الصورة القديمة هنا إذا لزم الأمر
-                $user->image = $request->file('image')->store('images', 'public');
+                $file = $request->file('image');
+                $path = UploadImage($file,'images/students');    
+                $validatedData['image']= $path;
             }
-            $user->phone = $request->phone;
-            $user->save();
-            $user->courses()->sync($validatedData->input('courses_ids',[]));
-            return redirect()->route('users.index')->with('success', 'User updated successfully.');
+            $student->phone = $validatedData['phone'];
+            $student->save();
+            $student->courses()->sync($validatedData['courses_ids']);
+            return redirect()->route('students.index')->with('success', 'Student updated successfully.');
         }
         else{
-            abort(403,'you do not have permissions to update a User');
+            abort(403,'you do not have permissions to update a Student');
         }
     }
     // حذف مستخدم معين
-    public function destroy(User $user)
+    public function destroy(User $student)
     {
         $user=User::findOrfail(Auth::user()->id);
         if($user->hasRole('admin')){
             // يمكنك حذف الصورة هنا إذا لزم الأمر
-            $user->delete();
-            return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+            $student->delete();
+            return redirect()->route('students.index')->with('success', 'Student deleted successfully.');
         }
         else{
-            abort(403,'you do not have permissions to delete a User');
+            abort(403,'you do not have permissions to delete a Student');
         }
     }
+
 }
+
+
