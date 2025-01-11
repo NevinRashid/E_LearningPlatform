@@ -22,23 +22,24 @@ class CourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required|string|max:255'],
-            'description' => ['required|string'],
-            'level' => ['required|string'],
-            'price' => ['required|numeric'],
-            'capacity' => ['required|integer'],
-            'start_date' => ['required|date'],
-            'category_id' => ['required|exists:categories,id'],
+
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'level' => 'required|string',
+            'price' => 'required|numeric',
+            'capacity' => 'required|integer',
+            'start_date' => 'required|date',
+            'category_id' => 'required|exists:categories,id',
         ];
     }
     public function messages()
     {
         return [
-            'title.required'       => ['The title is required.'],
-            'description.required' => ['The description is required.'],
-            'level.required'       => ['The level is required.'],
-            'price.required'       => ['The price is required.'],
-            'start_date.required'  => ['The start_date is required.'],
+            'title.required'       => 'The title is required.',
+            'description.required' => 'The description is required.',
+            'level.required'       => 'The level is required.',
+            'price.required'       => 'The price is required.',
+            'start_date.required'  => 'The start_date is required.',
         ];
     }
 

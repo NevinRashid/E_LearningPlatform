@@ -22,21 +22,22 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'     => ['required|string|max:255'],
-            'email'    => ['required|email|unique:users,email|max:255'],
-            'phon'     =>['required|numeric|max:255'],
-            'password' => ['required|string|min:8|confirmed'],
-            'image'    => ['required|mimes:jpg,jpeg,png|max:2048'],
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email|max:255',
+            'phone'     =>'required|string|max:255',
+            'password' => 'required|string|min:8|confirmed',
+            'image'    => 'mimes:jpg,jpeg,png|max:2048', 
         ];
     }
     public function messages()
     {
         return [
-            'name'        => ['The name is required.'],
-            'email'       => ['The email is required.'],
-            'phon'       => ['The phon is required.'],
-            'password'    => ['The password is required.'],
-            'image'       => ['The image is required.'],
+
+            'name'        => 'The name is required.',
+            'email'       => 'The email is required.',
+            'phon'       => 'The phon is required.',
+            'password'    => 'The password is required.',
+            'image'       => 'The image is required.',
         ];
     }
 }

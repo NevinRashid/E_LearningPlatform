@@ -1,5 +1,4 @@
 @extends('main')
-
 @section('content')
 <div class="page-header">
     <h3 class="page-title">
@@ -8,7 +7,6 @@
         </span> Courses
     </h3>
 </div>
-
 <div class="row">
     <div class="col-12 grid-margin">
         <div class="card">
@@ -54,9 +52,11 @@
             </div>
         </div>
     </div>
-
+    @if (auth()->user()->hasRole('admin'))  
     <div class="col-12 grid-margin">
         <a href="{{ route('courses.create') }}" class="btn btn-gradient-primary btn-fw" style="margin-top:20px;">Add Course</a>
     </div>
+    @endif
+
 
 @endsection

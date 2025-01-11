@@ -45,7 +45,11 @@ Route::post('/logout', function (Request $request) {
     return response()->json(['message' => 'Logged out successfully']);
 })->middleware('auth:sanctum');
 
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/courses',[CategoryController::class,'byCategory']);
+
+Route::post('/comments', [CommentController::class, 'store'])->middleware('auth:sanctum');
+Route::post('/ratings', [RatingController::class, 'store'])->middleware('auth:sanctum');
+
