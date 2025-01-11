@@ -11,6 +11,7 @@
     <form action="{{route('files.store')}}" method="post" enctype="multipart/form-data">
         @csrf
         name: <input type="text" name="name"><br>
+        description:<textarea name="description"></textarea><br>
         file: <input type="file" name="file"> <br>
         course: <select name="course">
                        @foreach($courses as $course)

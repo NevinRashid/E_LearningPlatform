@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}" />
+    
   </head>
   <body>
     <div class="container-scroller">
@@ -110,13 +111,13 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{{ route('students.index') }}">
                 <span class="menu-title">Students</span>
                 <i class="mdi mdi-school menu-icon"></i>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('trainers.name') }}">
+              <a class="nav-link" href="{{ route('trainers.index') }}">
                 <span class="menu-title">Trainers</span>
                 <i class="mdi mdi-account-tie menu-icon"></i>
               </a>

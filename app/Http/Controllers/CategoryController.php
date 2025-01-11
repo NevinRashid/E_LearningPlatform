@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
@@ -104,7 +105,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $user=Auth::user();
+        $user=User::findOrfail(Auth::user()->id);
         if($user->hasRole('admin')){
             $category->delete();
             return redirect()->route('categories.index')->with('success', 'Category deleted successfully!');

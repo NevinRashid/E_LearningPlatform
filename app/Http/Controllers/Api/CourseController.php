@@ -26,7 +26,7 @@ class CourseController extends Controller
         return response()->json(['message' => 'You have successfully registered for the course.']);
     }
 
-    public function unregister(Course $course)
+    public function unregister(Course $course)  
     {
         $user_id = Auth::user()->id;
         $user = User::find($user_id); 
