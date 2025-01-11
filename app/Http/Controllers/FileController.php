@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\File;
 use App\Models\Course;
 use App\Http\Requests\FileRequest;
+use Illuminate\Support\Facades\Storage;
+
 class FileController extends Controller
 {
     /**
@@ -14,8 +16,8 @@ class FileController extends Controller
     
     public function index()
     {
-       $files=File::all();
-       return view('files.index',compact('files'));
+        $files=File::all();
+        return view('files.index',compact('files'));
     }
 
     /**
@@ -64,22 +66,51 @@ class FileController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('files.edit', compact('file'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, File $file)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'file' => 'nullable|file|mimes:jpg,png,jpeg,doc,docx,pdf|max:2048',
+            'type' => 'nullable|string|max:255',
+            'course_id' => 'nullable|exists:courses,id',
+        ]);
+
+        // Update name and type
+        $file->name = $request->input('name');
+        $file->type = $request->input('type');
+        $file->course_id = $request->input('course_id');
+
+        // Check if a new file is uploaded
+        if ($request->hasFile('file')) {
+            // Delete old file
+            Storage::delete($file->path);
+
+            // Store new file
+            $filePath = $request->file('file')->store('files');
+            $file->path = $filePath;
+        }
+
+        $file->save();
+
+        return redirect()->route('files.index')->with('success', 'File updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(File $file)
     {
-        //
+        // Delete the file from storage
+        Storage::delete($file->path);
+        // Delete the record from the database
+        $file->delete();
+
+        return redirect()->route('files.index')->with('success', 'File deleted successfully.');
     }
 }
