@@ -47,6 +47,7 @@
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href{{ route('dashboard') }} data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="nav-profile-img">
+
                   <img src="{{asset('assets/images/faces/face1.jpg')}}" alt="image">
                   <span class="availability-status online"></span>
                 </div>
@@ -58,6 +59,7 @@
                 <a class="dropdown-item" href="#">
                   <i class="mdi mdi-cached me-2 text-success"></i> Activity Log </a>
                 <div class="dropdown-divider"></div>
+
                 <a class="dropdown-item" href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();" >
@@ -86,11 +88,13 @@
             <li class="nav-item nav-profile">
               <a href="#" class="nav-link">
                 <div class="nav-profile-image">
+
                   <img src="{{ asset('assets/imgs/' . Auth::user()->image) }}" alt="profile" />
                   <span class="login-status online"></span>
                   <!--change to offline or busy as needed-->
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
+
                   <span class="font-weight-bold mb-2">{{ Auth::user()->name }}</span>
                   <span class="text-secondary text-small">Project Manager</span>
                 </div>
@@ -105,24 +109,28 @@
             </li>
 
             <li class="nav-item">
+
               <a class="nav-link" href="{{ route('courses.index') }}">
                 <span class="menu-title">Courses</span>
                 <i class="mdi mdi-book-open-page-variant menu-icon"></i>
               </a>
             </li>
             <li class="nav-item">
+
               <a class="nav-link" href="{{ route('students.index') }}">
                 <span class="menu-title">Students</span>
                 <i class="mdi mdi-school menu-icon"></i>
               </a>
             </li>
             <li class="nav-item">
+
               <a class="nav-link" href="{{ route('trainers.index') }}">
                 <span class="menu-title">Trainers</span>
                 <i class="mdi mdi-account-tie menu-icon"></i>
               </a>
             </li>
             <li class="nav-item">
+
               <a class="nav-link" href="{{ route('categories.index') }}">
                 <span class="menu-title">Categories</span>
                 <i class="mdi mdi-grid menu-icon"></i>

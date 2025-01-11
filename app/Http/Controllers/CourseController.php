@@ -29,9 +29,10 @@ class CourseController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
+
     {
         $categories= Category::all();
-        return view('courses.create', compact('categories'));
+          return view('courses.create', compact('categories'));
     }
 
     /**
@@ -60,6 +61,7 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {   $categories = Category::all(); // استرجاع جميع الأصناف
+        $course=Course::findOrFail($course);
         $selectedCategories = Course::find($course)->categories; // استرجاع الفئات المحددة
         $selectedCategoryIds = $selectedCategories->pluck('id')->toArray(); // الحصول على معرفات الفئات المحددة
         return view('courses.show',compact('course', 'categories','selectedCategoryIds'));

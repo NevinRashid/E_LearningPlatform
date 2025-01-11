@@ -76,6 +76,7 @@ class UserController extends Controller
     // تحديث مستخدم معين
     public function update(UserRequest $request, User $user)
     {
+
         if($request->user()->hasRole('admin')){
             $validatedData = $request->validated();
             $user->name = $validatedData->name;
@@ -110,5 +111,4 @@ class UserController extends Controller
             abort(403,'you do not have permissions to delete a User');
         }
     }
-
 }
