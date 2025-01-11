@@ -38,7 +38,7 @@
                                 @enderror
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control form-control-lg" name="password_confirmation" required id="exampleInputPassword1" placeholder="Password">
+                            <input type="password" class="form-control form-control-lg" name="password_confirmation" required id="exampleInputPassword1" placeholder="confirmed password">
                         </div>
                         <div class="form-group">
                             <input type="text" name="phone" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="phone">

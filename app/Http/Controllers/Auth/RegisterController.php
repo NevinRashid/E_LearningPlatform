@@ -28,6 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
+
     protected $redirectTo = '/dashboard';
 
     /**
@@ -64,11 +65,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+
+        $user= User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
+            'image' => 'null'
         ]);
+        $user->assignRole('student');
+        return $user;
     }
 }
