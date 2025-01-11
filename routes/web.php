@@ -5,9 +5,11 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TrainerController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
+use League\CommonMark\Extension\SmartPunct\DashParser;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,20 +27,16 @@ Route::get('/', function () {
 });
 
 Route::resource('categories',CategoryController::class);
-
 Route::get('dashboard', [DashboardController::class,'getDashboardCounts'])->name('dashboard')->middleware('check_user_role');
+Route::resource('courses', CourseController::class);
+Route::resource('users', UserController::class);
+Route::resource('files', FileController::class);
+Route::resource('trainers', TrainerController::class);
+Route::resource('students', StudentController::class);
+Auth::routes();
 
 Route::get('student', function () {
     return view('student');
 })->name('student');
-
-Route::resource('courses', CourseController::class);
-Route::resource('users', UserController::class);
-Route::get('trainers', function () {
-    return view('trainers.index');
-})->name('trainers.name');
-
-Route::resource('files', FileController::class);
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
