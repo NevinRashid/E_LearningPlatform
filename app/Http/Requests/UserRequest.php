@@ -26,12 +26,13 @@ class UserRequest extends FormRequest
             'email'    => 'required|email|unique:users,email|max:255',
             'phone'     =>'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',
-            'image'    => 'mimes:jpg,jpeg,png|max:2048',
+            'image'    => 'mimes:jpg,jpeg,png|max:2048', 
         ];
     }
     public function messages()
     {
         return [
+
             'name'        => 'The name is required.',
             'email'       => 'The email is required.',
             'phon'       => 'The phon is required.',

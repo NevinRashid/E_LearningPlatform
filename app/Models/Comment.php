@@ -12,8 +12,8 @@ class Comment extends Model
     protected $fillable = [
         'user_id',
         'course_id',
-        'comment_text'
-        ];
+        'comment_text',
+    ];
 
     public function course(){
         return $this->belongsTo(Course::class);

@@ -20,7 +20,7 @@ class CheckUserRole
     {
         if (Auth::check()){
             if(Auth::user()->hasRole('student')){
-                return redirect()->route('student');
+                return redirect()->route('students.dashboard');
             }
         }
         return $next($request);
