@@ -6,12 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\File;
 use App\Models\Course;
 use App\Http\Requests\FileRequest;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Storage;
-
-=======
 use App\Models\Comment;
->>>>>>> 05429042962d63f7f7fcb4e178face834c81352e
+
 class FileController extends Controller
 {
     /**
