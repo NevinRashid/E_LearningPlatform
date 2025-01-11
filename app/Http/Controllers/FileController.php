@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\File;
 use App\Models\Course;
 use App\Http\Requests\FileRequest;
+use App\Models\Comment;
 class FileController extends Controller
 {
     /**
@@ -56,7 +57,8 @@ class FileController extends Controller
     public function show(string $id)
     {
         $file=File::where('id',$id)->first();
-        return view('files.video',compact('file'));
+        $comments=Comment::where('course_id',$file->course_id)->get();
+        return view('files.video',compact('file','comments'));
     }
 
     /**
