@@ -18,13 +18,12 @@ class StudentController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('check_user_role');
     }
 
     // عرض المدربين
     public function index()
     {
-        $students = User::role('student')->get();
+        $students = User::role('student')->paginate(10);
         return view('students.index', compact('students'));
     }
 
@@ -85,6 +84,7 @@ class StudentController extends Controller
             $validatedData = $request->validated();
             $student->name = $validatedData['name'];
             $student->email = $validatedData['email'];
+            $student->phone = $validatedData['phone'];
             if ($request->filled('password')) {
                 $student->password = Hash::make($validatedData['password']);
             }
@@ -95,7 +95,6 @@ class StudentController extends Controller
                 $path = UploadImage($file,'images/students');    
                 $validatedData['image']= $path;
             }
-            $student->phone = $validatedData['phone'];
             $student->save();
             $student->courses()->sync($validatedData['courses_ids']);
             return redirect()->route('students.index')->with('success', 'Student updated successfully.');
@@ -116,6 +115,12 @@ class StudentController extends Controller
         else{
             abort(403,'you do not have permissions to delete a Student');
         }
+    }
+
+    //عرض صفحة عند انشاء الطالب حساب
+    public function studentPage()
+    {
+        return view('student');
     }
 
 }

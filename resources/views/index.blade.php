@@ -4,10 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Our Platform</title>
+    <link rel="stylesheet" href="{{asset('assets/vendors/mdi/css/materialdesignicons.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendors/ti-icons/css/themify-icons.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendors/css/vendor.bundle.base.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendors/font-awesome/css/font-awesome.min.css')}}">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="{{asset('assets/vendors/font-awesome/css/font-awesome.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .hero-section {
-            background: linear-gradient(to right, #007bff, #6c757d);
+            background: linear-gradient(to right, #b068ff, #887d92);
             color: white;
             padding: 60px 0;
             text-align: center;
@@ -34,11 +49,9 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="btn btn-primary btn-custom" href="{{ route('register') }}">Register</a>
-                    </li>
+                        <a class="btn btn-gradient-primary btn-custom" href="{{ route('register') }}">Register</a>                    </li>
                     <li class="nav-item">
-                        <a class="btn btn-outline-primary btn-custom" href="{{ route('login') }}">Login</a>
-                    </li>
+                        <a class="btn btn-gradient-primary btn-custom" href="{{ route('login') }}">Login</a>                    </li>
                 </ul>
             </div>
         </div>
