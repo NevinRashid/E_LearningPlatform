@@ -28,6 +28,8 @@
                   <th> Email </th>
                   <th> Mobile phone </th>
                   <th> Registered courses </th>
+                  <th></th>
+
                 </tr>
               </thead>
               <tbody>

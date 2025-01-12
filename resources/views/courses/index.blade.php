@@ -38,8 +38,8 @@
                                 <th>{{$course->start_date}}</th>
                                 <th>{{$course->category?->name}}</th>
                                 <th><a href="{{route('courses.edit',$course->id)}}">edit</a></th>
-                                <th><a href="{{route('course.destroy',$course->id)}}">destroy</a></th>
-                                <th><a href="{{route('course.show',$course->id)}}">show</a></th>
+                                <th><a href="{{route('courses.destroy',$course->id)}}">destroy</a></th>
+                                <th><a href="{{route('courses.show',$course->id)}}">show</a></th>
                             </tr>
                             @endforeach
                             </tr>

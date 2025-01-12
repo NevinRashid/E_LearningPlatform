@@ -24,7 +24,7 @@ class TrainerController extends Controller
     // عرض المدربين
     public function index()
     {
-        $trainers = User::role('trainer')->with('courses')->get();
+        $trainers = User::role('trainer')->with('courses')->paginate(10);
         return view('trainers.index', compact('trainers'));
     }
 

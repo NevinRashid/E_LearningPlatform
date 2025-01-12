@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 
-class UserController extends Controller
+class AdminController extends Controller
 {
     use HasRoles;
 
@@ -23,14 +23,14 @@ class UserController extends Controller
     // عرض قائمة المستخدمين
     public function index()
     {
-        $users = User::all();
-        return view('users.index', compact('users'));
+        $admins = User::role('admin')->paginate(10);
+        return view('admins.index', compact('admins'));
     }
 
     // عرض نموذج إنشاء مستخدم جديد
     public function create()
     {
-        return view('users.create');
+        return view('admins.create');
     }
 
     // تخزين مستخدم جديد
@@ -40,21 +40,22 @@ class UserController extends Controller
     if ($request->hasFile('image')) {
         $file = $request->file('image');
         // استخدم دالة uploadImage لتخزين الصورة
-        $path = UploadImage($file, "images/users");
+        $path = UploadImage($file, "images/admins");
         // أضف مسار الصورة إلى البيانات المرسلة
         $validatedData['image'] = $path;
     }
     // إنشاء مستخدم جديد مع البيانات الموثوقة بعد فحص السماحية
     if($request->user()->hasRole('admin')){
-        $user = User::create([
+        $admin = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
             'password' => bcrypt($validatedData['password']), // تأكد من تشفير كلمة المرور
             'image' => $validatedData['image'] , // إذا لم تكن الصورة موجودة، اجعلها null
         ]);
-        $user->courses()->attach($validatedData->input('courses_ids',[]));
+        $admin->assignRole('admin');
         // إعادة توجيه إلى صفحة المستخدمين مع رسالة نجاح
-        return redirect('/users')->with('success', 'User created successfully!');
+        return redirect('/admins')->with('success', 'User created successfully!');
     }
     else{
         abort(403,'you do not have permissions to add a User');
@@ -62,53 +63,56 @@ class UserController extends Controller
 }
 
     // عرض تفاصيل مستخدم معين
-    public function show(User $user)
+    public function show(User $admin)
     {
-        return view('users.show', compact('user'));
+        return view('admins.show', compact('admin'));
     }
 
     // عرض نموذج تعديل مستخدم معين
-    public function edit(User $user)
+    public function edit(User $admin)
     {
-        return view('users.edit', compact('user'));
+        return view('admins.edit', compact('admin'));
     }
 
     // تحديث مستخدم معين
-    public function update(UserRequest $request, User $user)
+    public function update(UserRequest $request, User $admin)
     {
-
         if($request->user()->hasRole('admin')){
             $validatedData = $request->validated();
-            $user->name = $validatedData->name;
-            $user->email = $validatedData->email;
+            $admin->name = $validatedData['name'];
+            $admin->email = $validatedData['email'];
+            $admin->phone = $validatedData['phone'];
             if ($request->filled('password')) {
-                $user->password = Hash::make($validatedData->password);
+                $admin->password = Hash::make($validatedData['password']);
             }
             // معالجة الصورة إذا تم رفعها
             if ($request->hasFile('image')) {
                 // يمكنك حذف الصورة القديمة هنا إذا لزم الأمر
-                $user->image = $request->file('image')->store('images', 'public');
+                $file = $request->file('image');
+                $path = UploadImage($file,'images/admins');    
+                $validatedData['image']= $path;
             }
-            $user->phone = $request->phone;
-            $user->save();
-            $user->courses()->sync($validatedData->input('courses_ids',[]));
-            return redirect()->route('users.index')->with('success', 'User updated successfully.');
+            $admin->image = $validatedData['image'];
+            $admin->syncRoles([]);
+            $admin->assignRole($validatedData['role']);
+            $admin->save();
+            return redirect()->route('admins.index')->with('success', 'Admin updated successfully.');
         }
-        else{
-            abort(403,'you do not have permissions to update a User');
-        }
+            else{
+                abort(403,'you do not have permissions to update a Admin');
+            }
     }
     // حذف مستخدم معين
-    public function destroy(User $user)
+    public function destroy(User $admin)
     {
         $user=User::findOrfail(Auth::user()->id);
         if($user->hasRole('admin')){
             // يمكنك حذف الصورة هنا إذا لزم الأمر
-            $user->delete();
-            return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+            $admin->delete();
+            return redirect()->route('admins.index')->with('success', 'Admin deleted successfully.');
         }
         else{
-            abort(403,'you do not have permissions to delete a User');
+            abort(403,'you do not have permissions to delete a Admin');
         }
     }
 }

@@ -23,10 +23,11 @@ class UserRequest extends FormRequest
     {
         return [
             'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email|max:255',
+            'email'    => 'required|email|unique:users|max:255',
             'phone'     =>'required|string|max:255',
             'password' => 'required|string|min:8|confirmed',
             'image'    => 'mimes:jpg,jpeg,png|max:2048', 
+            'role'    => 'nullable|string|max:255',
         ];
     }
     public function messages()
