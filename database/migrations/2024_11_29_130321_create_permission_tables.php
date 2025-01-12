@@ -124,7 +124,7 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {
+    {    
         $tableNames = config('permission.table_names');
 
         if (empty($tableNames)) {
