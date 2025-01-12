@@ -39,11 +39,6 @@
                                     <label class="form-check-label text-muted">
                                     <input type="checkbox" name="remember" class="form-check-input"  {{ old('remember') ? 'checked' : '' }}> Keep me signed in <i class="input-helper"></i></label>
                                 </div>
-                                @if (Route::has('password.request'))
-                                <a class="auth-link text-primary" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
-                            @endif
                             </div>
                             <div class="text-center mt-4 font-weight-light"> Don't have an account? <a href="{{ route('register') }}" class="text-primary">Create</a>
                             </div>

@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}" />
+    
   </head>
   <body>
     <div class="container-scroller">
@@ -46,7 +47,8 @@
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href{{ route('dashboard') }} data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="nav-profile-img">
-                  <img src="{{asset('assets/images/faces/face1.jpg')}}" alt="image">
+
+                  <img src="{{ asset('storage/'. Auth::user()->image) }}" alt="image">
                   <span class="availability-status online"></span>
                 </div>
                 <div class="nav-profile-text">
@@ -57,6 +59,7 @@
                 <a class="dropdown-item" href="#">
                   <i class="mdi mdi-cached me-2 text-success"></i> Activity Log </a>
                 <div class="dropdown-divider"></div>
+
                 <a class="dropdown-item" href="{{ route('logout') }}"
                                                 onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();" >
@@ -85,11 +88,12 @@
             <li class="nav-item nav-profile">
               <a href="#" class="nav-link">
                 <div class="nav-profile-image">
-                  <img src="{{ asset('assets/imgs/' . Auth::user()->image) }}" alt="profile" />
+                  <img src="{{ asset('storage/'. Auth::user()->image) }}" alt="" />
                   <span class="login-status online"></span>
                   <!--change to offline or busy as needed-->
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
+
                   <span class="font-weight-bold mb-2">{{ Auth::user()->name }}</span>
                   <span class="text-secondary text-small">Project Manager</span>
                 </div>
@@ -102,21 +106,20 @@
                 <i class="mdi mdi-home menu-icon"></i>
               </a>
             </li>
-
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('courses.index') }}">
-                <span class="menu-title">Courses</span>
-                <i class="mdi mdi-book-open-page-variant menu-icon"></i>
+              <a class="nav-link" href="{{ route('admins.index') }}">
+                <span class="menu-title">Admins</span>
+                <i class="mdi mdi-shield-account menu-icon"></i>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{{ route('students.index') }}">
                 <span class="menu-title">Students</span>
                 <i class="mdi mdi-school menu-icon"></i>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('trainers.name') }}">
+              <a class="nav-link" href="{{ route('trainers.index') }}">
                 <span class="menu-title">Trainers</span>
                 <i class="mdi mdi-account-tie menu-icon"></i>
               </a>
@@ -127,26 +130,21 @@
                 <i class="mdi mdi-grid menu-icon"></i>
               </a>
             </li>
+                        <li class="nav-item">
+              <a class="nav-link" href="{{ route('courses.index') }}">
+                <span class="menu-title">Courses</span>
+                <i class="mdi mdi-book-open-page-variant menu-icon"></i>
+              </a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="{{route('files.index')}}">
                 <span class="menu-title">Files</span>
                 <i class="mdi mdi-file-multiple menu-icon"></i>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span class="menu-title">Comments</span>
-                <i class="mdi mdi-comment-text-multiple menu-icon"></i>
-              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span class="menu-title">Ratings</span>
-                <i class="mdi mdi-star menu-icon"></i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{{route('about')}}">
                 <span class="menu-title">About us</span>
                 <i class="mdi mdi-account-group menu-icon"></i>
               </a>
@@ -162,7 +160,7 @@
           <!-- partial:partials/_footer.html -->
           <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
-              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2024.Focal X Academy. All rights reserved.</span>
+              <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2025.Focal X Academy. All rights reserved.</span>
               <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">by X6 Back-end Beg V.7 <i class="mdi mdi-heart text-danger"></i></span>
             </div>
           </footer>
@@ -181,6 +179,7 @@
     <script src="{{asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
+    <script src="{{asset('assets/js/file-upload.js')}}"></script>
     <script src="{{asset('assets/js/off-canvas.js')}}"></script>
     <script src="{{asset('assets/js/misc.js')}}"></script>
     <script src="{{asset('assets/js/settings.js')}}"></script>
