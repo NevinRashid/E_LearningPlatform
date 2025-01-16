@@ -1,5 +1,21 @@
 @extends('main')
 @section('content')
+<form method="GET" action="{{ route('courses.index') }}">
+    <input type="text" name="name" placeholder="courses" value="{{ request('name') }}">
+    <select name="category">
+        <option value="">category</option>
+        <option value="tech" {{ request('category') == 'tech' ? 'selected' : '' }}>technique</option>
+        <option value="business" {{ request('category') == 'business' ? 'selected' : '' }}>business</option>
+    </select>
+    <select name="level">
+        <option value=>level</option>
+        <option value="beginner" {{ request('level') == 'beginner' ? 'selected' : '' }}>beginner</option>
+        <option value="intermediate" {{ request('level') == 'intermediate' ? 'selected' : '' }}<intermediate</option>
+        <option value="advanced" {{ request('level') == 'advanced' ? 'selected' : '' }}>advanced</option>
+    </select>
+    <input type="number" name="price" placeholder="maximum price" value="{{ request('price') }}">
+    <button type="submit">filter</button>
+</form>
 <div class="page-header">
     <h3 class="page-title">
         <span class="page-title-icon bg-gradient-primary text-white me-2">
@@ -56,6 +72,16 @@
     <div class="col-12 grid-margin">
         <a href="{{ route('courses.create') }}" class="btn btn-gradient-primary btn-fw" style="margin-top:20px;">Add Course</a>
     </div>
+    <div class="courses">
+    @foreach($courses as $course)
+        <div class="course">
+            <h3>{{ $course->name }}</h3>
+            <p>category: {{ $course->category }}</p>
+            <p>level: {{ $course->level }}</p>
+            <p>price: {{ $course->price }}</p>
+        </div>
+    @endforeach
+</div>
     @endif
 
 

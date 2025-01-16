@@ -22,6 +22,22 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::all();
+        if ($request->filled('name')) {
+            $courses->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        if ($request->filled('category')) {
+            $courses->where('category', $request->input('category'));
+        }
+
+        if ($request->filled('level')) {
+            $courses->where('level', $request->input('level'));
+        }
+
+        if ($request->filled('price')) {
+            $courses->where('price', '<=', $request->input('price'));
+        }
+        $courses = $courses->get();
         return view('courses.index', compact('courses'));
     }
 
