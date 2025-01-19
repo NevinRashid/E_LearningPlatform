@@ -21,8 +21,18 @@ class CommentRequest extends FormRequest
      */
     public function rules(): array
     {
+        //dd($_REQUEST);
         return [
-            'comment_text'=>'required|string|max:255'
+            'comment_text'     => ['required','string','max:255'],
+            'course_id'        =>['sometimes','exists:courses,id'],
         ];
+    }
+    public function messages()
+    {
+        return [
+            'comment_text'        => 'The comment text is required.',
+            'course_id'       => 'The course is required.',
+        ];
+        
     }
 }

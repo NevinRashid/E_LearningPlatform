@@ -1,91 +1,78 @@
+
+
 @extends('main')
-
 @section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mt-4 text-center">Update Course</h2>
+            <div class="card">
+                <div class="card-body">
+                    @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Edit Course</title>
-</head>
-<body>
-  <div class="container">
-      <!-- Form to edit an existing course -->
-      <div class="row justify-content-center mt-4">
-          <div class="col-md-8">
-              <h2 class="text-center">Edit Course</h2>
-              <div class="card">
-                  <div class="card-body">
-                    <form action="{{ route('courses.update', $course->id) }}" method="post">
-                        @csrf
-                        @method('put')
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
-                        <!-- Course Name -->
+                    <form action="{{ route('courses.update',$course) }}" method="POST">
+                        @csrf 
+                        @method('PUT')
                         <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input required type="text" name="name" class="form-control" value="{{ $course->title }}">
+                            <label for="name">Course Name</label>
+                            <input type="text" value="{{ $course->title }}" class="form-control" id="name" name="title" required>
                         </div>
 
-                        <!-- Description -->
                         <div class="form-group">
-                            <label for="description">Description:</label>
-                            <input required type="text" name="description" class="form-control" value="{{ $course->description }}">
+                            <label for="description">Description</label>
+                            <input class="form-control" type="text" value="{{ $course->description }}" id="description" name="description" rows="4" required></input>
                         </div>
 
-                        <!-- Level -->
                         <div class="form-group">
-                            <label for="level">Level:</label>
-                            <select name="level" class="form-control" required>
-                                <option value="">Select Level</option>
-                                <option value="1" {{ $course->level == 1 ? 'selected' : '' }}>1 (Beginner)</option>
-                                <option value="2" {{ $course->level == 2 ? 'selected' : '' }}>2 (Intermediate)</option>
-                                <option value="3" {{ $course->level == 3 ? 'selected' : '' }}>3 (Advanced)</option>
-                            </select>
+                            <label for="level">Level</label>
+                            <input type="text"  value="{{ $course->level }}" class="form-control" id="level" name="level" required>
                         </div>
 
-                        <!-- Price -->
                         <div class="form-group">
-                            <label for="price">Price:</label>
-                            <input required type="text" name="price" class="form-control" value="{{ $course->price }}">
+                            <label for="price">Price</label>
+                            <input type="number"  value="{{ $course->price }}" class="form-control" id="price" name="price" required>
                         </div>
 
-                        <!-- Capacity -->
                         <div class="form-group">
-                            <label for="capacity">Capacity:</label>
-                            <input required type="text" name="capacity" class="form-control" value="{{ $course->capacity }}">
+                            <label for="capacity">Capacity</label>
+                            <input type="number"  value="{{ $course->capacity }}" class="form-control" id="capacity" name="capacity" required>
                         </div>
 
-                        <!-- Start Date -->
                         <div class="form-group">
-                            <label for="start_date">Start Date:</label>
-                            <input required type="date" name="start_date" class="form-control" value="{{ $course->start_date }}">
+                            <label for="start_date">Start Date</label>
+                            <input type="date"  value="{{ $course->start_date }}" class="form-control" id="start_date" name="start_date" required>
                         </div>
 
-                        <!-- Category -->
                         <div class="form-group">
-                            <label for="category_id">Category:</label>
-                            <select name="category_id" class="form-control" required>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}" {{ $course->category_id == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
+                            <label class="col-sm-4 col-form-label">Categories</label>
+                            <select name="category_id" class="form-select" >
+                                @foreach($categories as $category)
+                                <option value="{{ $category->id }}" {{ $course->category_id == $category->id ? 'selected' : '' }}>
+                                    {{$category->name}}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
-
-                        <!-- Submit Buttons -->
-                        <button type="submit" class="btn btn-primary">Update Course</button>
-                        <button type="button" class="btn btn-light" onclick="window.history.back();">Cancel</button>
+                        <button type="submit" class="btn btn-gradient-primary btn-lg mb-4">Update Course</button>
+                        <a href="{{ route('courses.index') }}" class="btn btn-secondary btn-lg mb-4 ">Cancel</a>
                     </form>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-
-</body>
-</html>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
+

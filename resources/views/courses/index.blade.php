@@ -8,55 +8,70 @@
     </h3>
 </div>
 <div class="row">
-    <div class="col-12 grid-margin">
+    @if (auth()->user()->hasRole('admin'))  
+        <div class="col">
+            <a href="{{ route('courses.create') }}" class="btn btn-gradient-primary btn-lg mb-4 ">Add new course</a>
+        </div>
+    @endif
+</div>
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Recent Courses</h4>
-                <div class="table-responsive" style="overflow-x: auto;">
-                    <table class="table">
+                <h4 class="card-title">All Courses</h4>
+                <div class="table-responsive">
+                    <table class="table ">
                         <thead>
                             <tr>
                                 <th>Course Name</th>
-                                <th>Description</th>
                                 <th>Level</th>
                                 <th>Price</th>
                                 <th>Capacity</th>
                                 <th>Start Date</th>
                                 <th>Category Name</th>
-                                <th>Actions</th> <!-- عمود الأزرار -->
+                                <th class="text-center">Actions</th> 
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($courses as $course)
                             <tr>
-                                @foreach ($courses as $course)
-                            <tr>
-                                <th>{{$course->title}}</th>
-                                <th>{{$course->description}}</th>
-                                <th>{{$course->level}}</th>
-                                <th>{{$course->price}}</th>
-                                <th>{{$course->capacity}}</th>
-                                <th>{{$course->start_date}}</th>
-                                <th>{{$course->category?->name}}</th>
-                                <th><a href="{{route('courses.edit',$course->id)}}">edit</a></th>
-                                <th><a href="{{route('courses.destroy',$course->id)}}">destroy</a></th>
-                                <th><a href="{{route('courses.show',$course->id)}}">show</a></th>
-                            </tr>
-                            @endforeach
-                            </tr>
-                                    </form>
+                                <td>{{$course->title}}</td>
+                                <td>{{$course->level}}</td>
+                                <td>{{$course->price}} $</td>
+                                <td>{{$course->capacity}}</td>
+                                <td>{{$course->start_date}}</td>
+                                <td>{{$course->category?->name}}</td>
+                                <td>
+                                    @if (auth()->user()->hasRole('admin'))  
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="{{ route('courses.show', $course) }}" class="btn btn-outline-success btn-sm">show</a>
+                                        <a href="{{ route('courses.edit', $course) }}" class="btn btn-outline-info btn-sm">edit</a>
+                                        <form action="{{ route('courses.destroy', $course->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure to delete this course?')">delete</button>
+                                        </form>
+                                    </div>
+                                    @endif
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="text-muted" style="margin-top: 10px">
+                        <small>
+                            Showing {{ $courses->firstItem() }} to {{ $courses->lastItem() }} of {{ $courses->total() }} results
+                        </small>
+                    </div>
+                    <div>
+                        {{ $courses->links('vendor.pagination.bootstrap-4') }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    @if (auth()->user()->hasRole('admin'))  
-    <div class="col-12 grid-margin">
-        <a href="{{ route('courses.create') }}" class="btn btn-gradient-primary btn-fw" style="margin-top:20px;">Add Course</a>
-    </div>
-    @endif
 
 
 @endsection

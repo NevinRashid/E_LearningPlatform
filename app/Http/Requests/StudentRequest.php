@@ -37,7 +37,7 @@ class StudentRequest extends FormRequest
         return [
             'name'        => 'The name is required.',
             'email'       => 'The email is required.',
-            'phone'       => 'The phon is required.',
+            'phone'       => 'The phone is required.',
             'password.min'    => 'The password is required to be more than 8 characters',
             'password.confirmed'    => 'The password does not match',
             'image'       => 'The image is required.',

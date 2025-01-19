@@ -80,6 +80,5 @@
             <a href="{{ route('categories.index') }}" class="btn btn-gradient-primary btn-lg mb-4 " style="margin-top: 10px;">Back</a>
         </div>
 </div>
-</div>
 
 @endsection

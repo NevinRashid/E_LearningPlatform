@@ -26,16 +26,16 @@ class StudentController extends Controller
         return view('students.index', compact('students'));
     }
 
-    // عرض نموذج إنشاء مدرب جديد
+    // عرض نموذج إنشاء طالب جديد
     public function create()
     {
         $courses=Course::all();
         return view('students.create',compact('courses'));
     }
 
-    // تخزين مدرب جديد
+    // تخزين طالب جديد
     public function store(StudentRequest $request)
-{
+    {
     $validatedData = $request->validated();
     if ($request->hasFile('image')) {
         $file = $request->file('image');
@@ -55,6 +55,11 @@ class StudentController extends Controller
         ]);
         $user->assignRole('student');
         $user->courses()->attach($validatedData['course_ids']);
+
+        //عند تسجيل الطالب في كورس ما ينقص من المقاعد
+        foreach($user->courses as $course){
+            $course->capacity= $course->capacity-1;
+        }
         // إعادة توجيه إلى صفحة المستخدمين مع رسالة نجاح
         return redirect('/students')->with('success', 'Student created successfully!');
     }

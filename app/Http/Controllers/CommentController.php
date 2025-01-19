@@ -10,14 +10,25 @@ use illuminate\Support\Facades\Auth;
 use App\Models\Course;
 use App\Models\Reply;
 use App\Models\File;
+use App\Models\User;
+use Spatie\Permission\Traits\HasRoles;
+
 class CommentController extends Controller
 {
+    use HasRoles;
+    
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('check_user_role');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $comments=Comment::paginate(10);
+        return view('comments.index',compact('comments'));
     }
 
     /**
@@ -25,7 +36,8 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+        $courses=Course::all();
+        return view('comments.create',compact('courses'));
     }
 
     /**
@@ -33,15 +45,11 @@ class CommentController extends Controller
      */
     public function store(CommentRequest $request)
     {
-       
-        $comment=Comment::create(['user_id'=>Auth::user()->id,'course_id'=>$request->course_id,'file_id'=>$request->file_id,'comment_text'=>$request->comment_text]);
-        $course=Course::where('id',$request->course_id)->first();
-        $file=File::where('id',$request->file_id)->first();
-        $course->comments()->save($comment);
-        $file->comments()->save($comment);
-        return redirect()->route('files.show',$file->id);
-       
-        
+        if($request->user()->hasRole('admin')||$request->user()->hasRole('trainer')){
+            $validatedData=$request->validated();
+            Comment::create(['user_id'=>Auth::user()->id,'course_id'=>$validatedData['course_id'],'comment_text'=>$validatedData['comment_text']]);
+            return redirect()->route('comments.index')->with('success', 'Comment Added successfully!');
+        }
     }
 
     /**
@@ -58,18 +66,22 @@ class CommentController extends Controller
     public function edit(Comment $comment)
     {
         return view('comments.edit',compact('comment'));
-
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Comment $comment,Request $request)
+    public function update(Comment $comment,CommentRequest $request)
     {
-        $comment->comment_text=$request->comment_text;
-        $comment->save();
-        $course=Course::findOrFail($comment->course_id);
-        return redirect()->route('courses.show',$course);
+        if($request->user()->hasRole('admin')){
+            $validatedData=$request->validated();
+            $comment->comment_text=$validatedData['comment_text'];
+            $comment->save();
+            return redirect()->route('comments.index')->with('success', 'Comment updated successfully!');
+        }
+        else{
+            abort(403,'you do not have permissions to update a Comment');
+        }
     }
 
     /**
@@ -77,7 +89,13 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        $comment->delete();
-        return back()->with('success');
+        $user=User::findOrfail(Auth::user()->id);
+        if($user->hasRole('admin')){
+            $comment->delete();
+            return redirect()->route('comments.index')->with('success', 'Comment deleted successfully!');
+        }
+        else{
+            abort(403,'you do not have permissions to delete a Comment');
+        }
     }
 }

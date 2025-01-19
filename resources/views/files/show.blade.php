@@ -57,7 +57,9 @@
 <iframe src="{{asset('storage/'.$file->path ) }}" width="100%" height="600px" frameborder="0"></iframe>
 @endif
 
+<!--
     
+-->
 
     <h3>Average Rating: {{ number_format($file->course->averageRating(), 1) }} / 5</h3>
 

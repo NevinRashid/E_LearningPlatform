@@ -22,50 +22,48 @@
                     @endif
 
                     <form action="{{ route('courses.store') }}" method="POST">
-                        @csrf <!-- CSRF Protection -->
+                        @csrf 
 
                         <div class="form-group">
                             <label for="name">Course Name</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
+                            <input type="text" class="form-control" id="name" name="title" required>
                         </div>
 
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="4" required>{{ old('description') }}</textarea>
+                            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label for="level">Level (1: Beginner, 2: Intermediate, 3: Advanced)</label>
-                            <select class="form-control" id="level" name="level" required>
-                                <option value="">Select Level</option>
-                                <option value="1" {{ old('level') == '1' ? 'selected' : '' }}>1: Beginner</option>
-                                <option value="2" {{ old('level') == '2' ? 'selected' : '' }}>2: Intermediate</option>
-                                <option value="3" {{ old('level') == '3' ? 'selected' : '' }}>3: Advanced</option>
-                            </select>
+                            <label for="level">Level</label>
+                            <input type="text" class="form-control" id="level" name="level" required>
                         </div>
 
                         <div class="form-group">
                             <label for="price">Price</label>
-                            <input type="number" class="form-control" id="price" name="price" value="{{ old('price') }}" required>
+                            <input type="number" class="form-control" id="price" name="price" required>
                         </div>
 
                         <div class="form-group">
                             <label for="capacity">Capacity</label>
-                            <input type="number" class="form-control" id="capacity" name="capacity" value="{{ old('capacity') }}" required>
+                            <input type="number" class="form-control" id="capacity" name="capacity" required>
                         </div>
 
                         <div class="form-group">
                             <label for="start_date">Start Date</label>
-                            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ old('start_date') }}" required>
+                            <input type="date" class="form-control" id="start_date" name="start_date" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="category_name">Category Name</label>
-                            <input type="text" class="form-control" id="category_name" name="category_name" value="{{ old('category_name') }}" required>
+                            <label class="col-sm-4 col-form-label">Categories</label>
+                            <select name="category_id" class="form-select" >
+                                @foreach($categories as $category)
+                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
-
-                        <button type="submit" class="btn btn-primary btn-block">Create Course</button>
-                        <a href="{{ route('courses.index') }}" class="btn btn-secondary btn-block mt-2">Cancel</a>
+                        <button type="submit" class="btn btn-gradient-primary btn-lg mb-4">Create Course</button>
+                        <a href="{{ route('courses.index') }}" class="btn btn-secondary btn-lg mb-4 ">Cancel</a>
                     </form>
                 </div>
             </div>
