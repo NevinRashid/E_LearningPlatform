@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Course;
+use Propaganistas\LaravelPhone\Casts\RawPhoneNumberCast;
+use Propaganistas\LaravelPhone\Casts\E164PhoneNumberCast;
+use Propaganistas\LaravelPhone\Casts\PhoneNumberCast;
 use app\Http\Controllers\Api\CourseController;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

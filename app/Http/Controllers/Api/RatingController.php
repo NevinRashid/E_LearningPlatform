@@ -4,18 +4,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Rating;
-
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\RatingRequest;
 class RatingController extends Controller
 {
-    public function store(Request $request)
+    public function store(RatingRequest $request)
     {
-        $request->validate([
-            'course_id' => 'required|exists:courses,id',
-            'rating_value' => 'required|integer|min:1|max:5', 
-        ]);
+        $validated=$request->validated();
 
-        $existingRating = Rating::where('user_id', auth()->id())
-            ->where('course_id', $request->course_id)
+        $existingRating = Rating::where('user_id', Auth::user()->id)
+            ->where('course_id', $validated['course_id'])
             ->first();
 
         if ($existingRating) {
@@ -23,15 +21,18 @@ class RatingController extends Controller
                 'message' => 'You have rated this course.',
             ], 409); // Conflict
         }
-        $rating = Rating::create([
-            'user_id' => auth()->id(),
-            'course_id' => $request->course_id,
-            'rating_value' => $request->rating_value, 
-        ]);
-
-        return response()->json([
-            'message' => 'Rating added successfully!',
-            'data' => $rating,
-        ], 201);
+        else{
+            $rating = Rating::create([
+                'user_id' => Auth::user()->id,
+                'course_id' => $validated['course_id'],
+                'rating_value' => $validated['rating_value'], 
+            ]);
+    
+            return response()->json([
+                'message' => 'Rating added successfully!',
+                'data' => $rating,
+            ], 201);
+        }
+        
     }
 }

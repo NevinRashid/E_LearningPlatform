@@ -50,11 +50,12 @@ class FileController extends Controller
      */
     public function store(FileRequest $request)
     {
+        $validated=$request->validated();
         $file=$request->file('file');
         $type=getFileType(fopen($file,'r'));//get file type (helpers folder)
         $path=storageFolder($type,$file);//file path (helpers folder)
-        $storefile=File::create(['name'=>$request->name,'path'=>$path,'type'=>$type,'course_id'=>$request->course]);
-        $course=Course::findOrFail($request->course);
+        $storefile=File::create(['name'=>$validated['name'],'path'=>$path,'type'=>$type,'course_id'=>$validated['course']]);
+        $course=Course::findOrFail($validated['course']);
         $course->files()->save($storefile);//to attach the new file with the course relationship
         return redirect()->route('files.index');
     }
@@ -64,9 +65,11 @@ class FileController extends Controller
      */
     public function show(File $file)
     {
+
         //$file=File::where('id',$id)->first();
         $comments=Comment::where('course_id',$file->course_id)->get();
         return view('files.show',compact('file','comments'));
+
     }
 
     /**
