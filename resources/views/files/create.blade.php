@@ -18,7 +18,7 @@
                          <option value="{{$course->id}}">{{$course->title}}</option>
                        @endforeach
                     </select><br>
-        <input type="submit">
+        <input type="submit" class="btn btn-gradient-primary btn-fw" style="margin-top:20px;">
 
     </form>
 @endsection

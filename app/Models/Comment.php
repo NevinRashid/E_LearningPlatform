@@ -14,6 +14,7 @@ class Comment extends Model
     protected $fillable = [
         'user_id',
         'course_id',
+        'file_id',
         'comment_text',
     ];
 
@@ -23,5 +24,8 @@ class Comment extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+    public function file(){
+        return $this->belongsTo(File::class);
     }
 }

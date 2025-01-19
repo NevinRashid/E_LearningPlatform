@@ -7,9 +7,9 @@
         </span> {{$file->name}}
     </h3>
 </div>
-<video width="100%" height="600px" controls>
+<video width="100%" height="600px" controls autoplay>
     <source src="{{ asset('storage/'.$file->path) }}" type="video/mp4">
-            Your browser does not support the video tag.
+Your browser does not support the video tag.
 </video>
 
 <div style="border:1px solid white;background-color:white">

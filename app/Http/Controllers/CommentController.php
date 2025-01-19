@@ -34,10 +34,12 @@ class CommentController extends Controller
     public function store(CommentRequest $request)
     {
        
-        $comment=Comment::create(['user_id'=>Auth::user()->id,'course_id'=>$request->course_id,'comment_text'=>$request->comment_text]);
+        $comment=Comment::create(['user_id'=>Auth::user()->id,'course_id'=>$request->course_id,'file_id'=>$request->file_id,'comment_text'=>$request->comment_text]);
         $course=Course::where('id',$request->course_id)->first();
+        $file=File::where('id',$request->file_id)->first();
         $course->comments()->save($comment);
-        return redirect()->route('files.show',$request->file_id);
+        $file->comments()->save($comment);
+        return redirect()->route('files.show',$file->id);
        
         
     }
