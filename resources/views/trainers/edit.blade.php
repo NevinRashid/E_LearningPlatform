@@ -62,7 +62,7 @@
                             <div class="form-group">
                                 <div class="col-sm-4 form-check">
                                     <label class="form-check-label">
-                                    <input type="checkbox" name="courses_ids[]" value="{{ $course->id }}" class="col-sm-8 form-check-input" {{ in_array($course->id,$trainer->courses->pluck('id')->toArray()) ? 'checked' : '' }}> {{ $course->title }} <i class="input-helper"></i></label>
+                                    <input type="checkbox" name="course_ids[]" value="{{ $course->id }}" class="col-sm-8 form-check-input" {{ in_array($course->id,$trainer->courses->pluck('id')->toArray()) ? 'checked' : '' }}> {{ $course->title }} <i class="input-helper"></i></label>
                                 </div>
                             </div>
                             @endforeach

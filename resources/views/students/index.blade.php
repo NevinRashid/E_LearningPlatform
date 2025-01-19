@@ -36,16 +36,24 @@
                 @foreach ($students as $student)
                 <tr>
                   <td>
-                    <img src="{{ asset('storage/'.$student->image) }}" class="me-2" alt="student-image"> {{ $student->name}}
+                    @if (file_exists('storage/'.$student->image))
+                      <img src="{{ asset('storage/'.$student->image) }}" class="me-2" alt=""> {{ $student->name}}
+                    @else
+                      <img src="{{asset('storage/images/face.webp')}}" class="me-2" alt=""> {{ $student->name}}
+                    @endif
                   </td>
                   <td> {{ $student->email }} </td>
                   <td> {{ $student->phone }} </td>
                   <td> 
-                    @foreach ($student->courses as $course)
-                    <li>
-                      <ul>{{ $course->title }}</ul>
-                    </li>
-                    @endforeach
+                    @if ($student->courses  && $student->courses->count()>0)
+                      @foreach ($student->courses as $course)
+                        <ul>
+                          <li>{{ $course->title }}</li>
+                        </ul>
+                      @endforeach
+                    @else
+                        <p>There are no registered courses</p>
+                    @endif
                   </td>
                   <td>
                     @if (auth()->user()->hasRole('admin'))  
@@ -64,6 +72,16 @@
                 @endforeach
               </tbody>
             </table>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="text-muted" style="margin-top: 10px">
+              <small>
+                Showing {{ $students->firstItem() }} to {{ $students->lastItem() }} of {{ $students->total() }} results
+              </small>
+            </div>
+            <div>
+                {{ $students->links('vendor.pagination.bootstrap-4') }}
+            </div>
           </div>
         </div>
       </div>

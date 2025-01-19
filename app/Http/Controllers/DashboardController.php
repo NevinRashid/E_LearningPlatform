@@ -15,12 +15,12 @@ class DashboardController extends Controller
     }
     public function getDashboardCounts()
     {
-        //جلب عدد الطلاب وعدد المدربين الكلي
+        // get the total number of students and trainers
         $studentCount=User::role('student')->count();
         $trainerCount=User::role('trainer')->count();
         
+        //get the total number of courses and completed courses
         $unregisterdStudents=User::role('student')->whereDoesntHave('courses')->count();
-        //جلب عدد الكورسات الكلي وعدد الكورسات المكتملة
         $courseCount=Course::count();
         $courseCompleted=Course::where('capacity', 0)->count();
 

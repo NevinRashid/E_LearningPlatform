@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-gradient-primary me-2">Update</button>
-                    <button class="btn btn-light">Cancel</button>
+                    <a href="{{ route('categories.index') }}" class="btn btn-secondary me-2">Cancel</a>
                 </form>
             </div>
         </div>

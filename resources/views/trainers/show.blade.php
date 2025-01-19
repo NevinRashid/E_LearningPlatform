@@ -4,7 +4,7 @@
     <div class="col-12 grid-margin">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Recent Trainer</h4>
+                <h4 class="card-title">Current Trainer</h4>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -19,16 +19,24 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <img src="{{ asset('storage/'.$trainer->image) }}" class="me-2" alt="image"> {{ $trainer->name }}
+                                    @if (file_exists('storage/'.$trainer->image))
+                                        <img src="{{ asset('storage/'.$trainer->image) }}" class="me-2" alt=""> {{ $trainer->name}}
+                                    @else
+                                        <img src="{{asset('storage/images/face.webp')}}" class="me-2" alt=""> {{ $trainer->name}}
+                                    @endif    
                                 </td>
                                 <td> {{ $trainer->email }} </td>
                                 <td> {{ $trainer->phone }} </td>
                                 <td> 
+                                    @if ($trainer->courses  && $trainer->courses->count()>0)
                                     @foreach ($trainer->courses as $course)
-                                    <li>
-                                        <ul>{{ $course->title }}</ul>
-                                    </li>
+                                        <ul>
+                                            <li>{{ $course->title }}</li>
+                                        </ul>
                                     @endforeach
+                                    @else
+                                        <p>There are no courses being taught</p>
+                                    @endif
                                 </td>
                                 <td> {{ $trainer->created_at }} </td>
                             </tr>

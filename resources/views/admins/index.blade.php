@@ -34,7 +34,11 @@
                 @foreach ($admins as $admin)
                 <tr>
                   <td>
-                    <img src="{{ asset('storage/'.$admin->image) }}" class="me-2" alt="student-image"> {{ $admin->name}}
+                    @if (file_exists('storage/'.$admin->image))
+                      <img src="{{ asset('storage/'.$admin->image) }}" class="me-2" alt=""> {{ $admin->name}}
+                    @else
+                      <img src="{{asset('storage/images/face.webp')}}" class="me-2" alt=""> {{ $admin->name}}
+                    @endif 
                   </td>
                   <td> {{ $admin->email }} </td>
                   <td> {{ $admin->phone }} </td>
@@ -55,6 +59,16 @@
                 @endforeach
               </tbody>
             </table>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="text-muted" style="margin-top: 10px">
+              <small>
+                Showing {{ $admins->firstItem() }} to {{ $admins->lastItem() }} of {{ $admins->total() }} results
+              </small>
+            </div>
+            <div>
+                {{ $admins->links('vendor.pagination.bootstrap-4') }}
+            </div>
           </div>
         </div>
       </div>

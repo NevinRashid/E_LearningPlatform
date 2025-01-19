@@ -26272,6 +26272,7 @@ dl li {
   -webkit-flex-direction: column;
   flex-direction: column;
 }
+
 @media (max-width: 991px) {
   .main-panel {
     margin-left: 0;
@@ -26311,4 +26312,32 @@ input[type="radio"]:checked ~ label {
 input[type="radio"]:not(:checked) ~ label:hover,
 input[type="radio"]:not(:checked) ~ label:hover ~ label {
   color: gold; 
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #ffffff;
+  color: #a15bff;
+  border: solid 2px #a15bff;
+  border-color: #a15bff;
+}
+
+.pagination .page-item.active .page-link:hover {
+  background-color: #a15bff;
+  color: #ffffff;
+}
+
+.pagination .page-item .page-link {
+  background-color: #ffffff; 
+  border-width: 2px;
+  color: #000000; 
+  margin-top: 10px;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: #f0e2ff; 
+}
+
+.pagination .page-item.disabled .page-link {
+  background-color: #f8f9fa;
+  color: #000000;
 }

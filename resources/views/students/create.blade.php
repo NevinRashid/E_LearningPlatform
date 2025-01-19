@@ -52,7 +52,7 @@
                             <div class="form-group">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                    <input type="checkbox" name="courses_ids[]" value="{{ $course->id }}" class="form-check-input"> {{ $course->title }} <i class="input-helper"></i></label>
+                                    <input type="checkbox" name="course_ids[]" value="{{ $course->id }}" class="form-check-input"> {{ $course->title }} <i class="input-helper"></i></label>
                                 </div>
                             </div>
                         @endforeach
