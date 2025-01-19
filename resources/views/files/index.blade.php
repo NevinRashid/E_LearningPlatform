@@ -58,6 +58,16 @@
                     </tbody>
                 </table>
             </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="text-muted" style="margin-top: 10px">
+                    <small>
+                        Showing {{ $files->firstItem() }} to {{ $files->lastItem() }} of {{ $files->total() }} results
+                    </small>
+                </div>
+                <div>
+                    {{ $files->links('vendor.pagination.bootstrap-4') }}
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -19,20 +19,23 @@ class CourseController extends Controller
         $courses =Course::with('category')->get();
         return response()->json([$courses],200);
     }
+
     public function byCategory($category_id){
         $courses=Course::with('category')->where('category_id',$category_id)->get();
         return response()->json([$courses],200);
     }
+
     public function show($id){
         $videos=File::with('course')->where('course_id',$id)
-                                               ->where('type','video')
-                                               ->get();
+                                                ->where('type','video')
+                                                ->get();
         $files=File::with('course')->where('course_id', $id)
-                                              ->where('type','<>','video')
-                                              ->get();
+                                                ->where('type','<>','video')
+                                                ->get();
         $rating=Rating::with('course')->where('course_id',$id)->avg('rating_value');
         return response()->json(["videos"=>$videos,"files"=>$files,'Average_rate'=>$rating.'/5'],200);
     }
+    
     public function register(Request $request)
     {
         $user_id = Auth::user()->id;

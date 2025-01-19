@@ -32,7 +32,6 @@ use League\CommonMark\Extension\SmartPunct\DashParser;
 Route::get('/', function () {
     return view('index');
 });
-Route::get('files/showLists',[FileController::class,'showLists'])->name('showLists');
 Route::get('dashboard', [DashboardController::class,'getDashboardCounts'])->name('dashboard');
 Route::get('about-us', [DashboardController::class,'aboutUs'])->name('about');
 Route::get('/student', [StudentController::class, 'studentPage'])->name('student');
@@ -40,6 +39,8 @@ Route::resource('categories',CategoryController::class);
 Route::resource('courses', CourseController::class);
 Route::resource('admins', AdminController::class);
 Route::resource('files', FileController::class);
+Route::resource('comments', CommentController::class);
+Route::resource('ratings', RatingController::class);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])

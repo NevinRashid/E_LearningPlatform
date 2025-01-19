@@ -22,8 +22,8 @@ class RatingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'course_id' => 'required|exists:courses,id',
-            'rating_value' => 'required|integer|between:1,5',
+            'rating_value'     => ['required','integer','between:1,5'],
+            'course_id'        =>['sometimes','exists:courses,id'],
         ];
     }
 }

@@ -1,47 +1,61 @@
-@extends('main') <!-- Make sure to use your layout -->
-
+@extends('main')
 @section('content')
-
 <div class="page-header">
     <h3 class="page-title">
         <span class="page-title-icon bg-gradient-primary text-white me-2">
-            <i class="mdi mdi-file-multiple"></i>
-        </span> Videos
+            <i class="mdi mdi-book-open-page-variant"></i>
+        </span> Courses
     </h3>
 </div>
-<ul style="list-style-type:none">
-    @foreach($files as $file)
-        @if($file->type=='video')
-            <li><a href="{{route('files.show',$file->id)}}">{{$file->name}}</a></li>
-        @endif
-    @endforeach
-</ul>
 
-<h1>{{ $course->title }}</h1>
-    
+<div class="container mt-5">
+    <div class="container mx-auto p-4">
+        <div class="flex flex-wrap -mx-4">
+            <div class="w-full md:w-1/2 px-4">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold mb-4">Course details</h3>
+                    <p><span class="font-semibold">Course name:</span> {{ $course->title }}</p>
+                    <p><span class="font-semibold">Description:</span> {{ $course->description }}</p>
+                    <p><span class="font-semibold">Level:</span> {{ $course->level }}</p>
+                    <p><span class="font-semibold"> Category name:</span> {{ $course->category->name }}</p>
+                </div>
+            </div>
 
-    <h3>Average Rating: {{ number_format($course->averageRating(), 1) }} / 5</h3>
-
-    <form action="{{route('ratings.store',$course)}}" method="POST">
-        @csrf
-        <div class="rating-container">
-            <input type="radio" id="star5" name="rating_value" value="5" required >
-            <label for="star5" class="star">&#9733;</label> <!-- Star symbol for 5 -->
-            
-            <input type="radio" id="star4" name="rating_value" value="4">
-            <label for="star4" class="star" >&#9733;</label> <!-- Star symbol for 4 -->
-            
-            <input type="radio" id="star3" name="rating_value" value="3">
-            <label for="star3" class="star" >&#9733;</label> <!-- Star symbol for 3 -->
-            
-            <input type="radio" id="star2" name="rating_value" value="2">
-            <label for="star2" class="star" >&#9733;</label> <!-- Star symbol for 2 -->
-            
-            <input type="radio" id="star1" name="rating_value" value="1">
-            <label for="star1" class="star" >&#9733;</label> <!-- Star symbol for 1 -->
+            <div class="w-full md:w-1/2 px-4">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-xl font-bold mb-4"> Additional information  </h3>
+                    <p><span class="font-semibold">Capacity:</span> {{ $course->capacity }}</p>
+                    <p><span class="font-semibold">Price:</span> {{ $course->price }}$</p>
+                    <p><span class="font-semibold">Start date:</span> {{ $course->start_date }}</p>
+                    <p class="font-semibold">Trainers:</p>
+                    <ul>
+                        @foreach ($trainers as $trainer)
+                            <li>{{ $trainer->name }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
         </div>
 
-        <button type="submit" class="btn btn-gradient-primary btn-fw" style="margin-top:20px;">submit</button>
-    </form>
-    
+
+        <div class="mt-8 bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-xl font-bold mb-4">Registered students</h3>
+            @if ($students)
+                <ul>
+                    @foreach ($students as $student)
+                    <li>{{ $student->name }}</li>
+                    @endforeach
+                </ul>
+            @else
+            <p>There are no students currently registered.</p>
+            @endif
+        </div>
+        <div class="row">
+            <div class="col">
+                <a href="{{ route('courses.index') }}" class="btn btn-gradient-primary btn-lg mb-4 " style="margin-top: 10px;">Back</a>
+            </div>
+    </div>
+
+
+</div>
 @endsection

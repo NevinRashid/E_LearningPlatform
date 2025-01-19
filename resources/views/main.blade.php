@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
     
   </head>
   <body>
@@ -142,6 +144,18 @@
                 <i class="mdi mdi-file-multiple menu-icon"></i>
               </a>
             </li>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{route('comments.index')}}">
+                <span class="menu-title">Comments</span>
+                <i class="mdi mdi-comment-text-multiple menu-icon"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{route('ratings.index')}}">
+                <span class="menu-title">Ratings</span>
+                <i class="mdi mdi-star menu-icon"></i>
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{route('about')}}">

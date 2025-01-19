@@ -12,15 +12,16 @@ use Spatie\Permission\Traits\HasRoles;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     use HasRoles;
+
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('check_user_role');
     }
+    /**
+     * Display a listing of the resource.
+     */
 
     public function index()
     {

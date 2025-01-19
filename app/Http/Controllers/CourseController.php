@@ -7,21 +7,25 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\CourseRequest;
 use App\Models\File;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
+
 class CourseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    use HasRoles;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('check_user_role');
     }
-
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $courses = Course::all();
+        $courses = Course::paginate(10);
         return view('courses.index', compact('courses'));
     }
 
@@ -40,31 +44,35 @@ class CourseController extends Controller
      */
     public function store(CourseRequest $request)
     {
-        // البيانات المدخلة تكون متاحة هنا بعد التحقق منها
-        $course = Course::create($request->validated());
-        $course->users()->attach($request->input('users_ids',[]));
-        $category=Category::where('id',$course->category_id)->first();
-        $category->courses()->save($course);
-        return redirect()->route('courses.index')->with('success', 'Course created successfully.');
+        if($request->user()->hasRole('admin')){
+            // البيانات المدخلة تكون متاحة هنا بعد التحقق منها
+            $course = Course::create($request->validated());
+            $course->users()->attach($request->input('users_ids',[]));
+            $category=Category::where('id',$course->category_id)->first();
+            $category->courses()->save($course);
+            return redirect()->route('courses.index')->with('success', 'Course created successfully.');
+        }
+        else{
+        abort(403,'you do not have permissions to add a Category');
+        }
     }
     /**
      * Display the specified resource.
      */
     public function show(Course $course)
     {
-        $files=File::with('course')->where('course_id',$course->id)->get();
-        return view('courses.show', compact('course','files'));
+        $students=Course::find($course->id)->users()->role('student')->get();
+        $trainers=Course::find($course->id)->users()->role('trainer')->get();
+        return view('courses.show', compact('course','students','trainers'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Course $course)
-    {   $categories = Category::all(); // استرجاع جميع الأصناف
-        $course=Course::findOrFail($course);
-        $selectedCategories = Course::find($course)->categories; // استرجاع الفئات المحددة
-        $selectedCategoryIds = $selectedCategories->pluck('id')->toArray(); // الحصول على معرفات الفئات المحددة
-        return view('courses.show',compact('course', 'categories','selectedCategoryIds'));
+    {   
+        $categories= Category::all();
+        return view('courses.edit',compact('course','categories'));
     }
 
     /**
@@ -74,7 +82,7 @@ class CourseController extends Controller
     {
         // تحديث الدورة باستخدام البيانات المدخلة
         $course->update($request->validated());
-        $course->users()->sync($request->validated()->input('users_ids',[]));
+        //$course->users()->sync($request->validated()->input('users_ids',[]));
         return redirect()->route('courses.index')->with('success', 'Course updated successfully.');
     }
 
@@ -83,7 +91,14 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        $course->delete();
-        return redirect()->route('courses.index')->with('success', 'Course deleted successfully.');
+        $user=User::findOrfail(Auth::user()->id);
+        if($user->hasRole('admin')){
+            $course->users()->detach();
+            $course->delete();
+            return redirect()->route('courses.index')->with('success', 'Course deleted successfully.');
+        }
+        else{
+            abort(403,'you do not have permissions to delete a Student');
+        }
     }
 }
