@@ -56,7 +56,7 @@ class TrainerController extends Controller
             'image' => $validatedData['image'] , // إذا لم تكن الصورة موجودة، اجعلها null
         ]);
         $trainer->assignRole('trainer');
-        $trainer->courses()->attach($request->input('courses_ids',[]));
+        $trainer->courses()->attach($request->input('course_ids',[]));
         // إعادة توجيه إلى صفحة المستخدمين مع رسالة نجاح
         return redirect()->route('trainers.index')->with('success', 'Trainer created successfully!');
     }
@@ -79,7 +79,7 @@ class TrainerController extends Controller
     }
 
     // تحديث مستخدم معين
-/*    public function update(TrainerRequest $request, User $trainer)
+  public function update(TrainerRequest $request, User $trainer)
     {
         if($request->user()->hasRole('admin')){
             $validatedData = $request->validated();
@@ -97,53 +97,23 @@ class TrainerController extends Controller
             }
             $trainer->image=$validatedData['image'];
             $trainer->phone = $validatedData['phone'];
-            $trainer->assignRole($validatedData['role']);
-            $trainer->save();
-            $trainer->courses()->sync($validatedData['courses_ids']);
-            return redirect()->route('trainers.index')->with('success', 'Trainer updated successfully.');
-        }
-        else{
-            abort(403,'you do not have permissions to update a Trainer');
-        }
-    }
-
-    */
-//=========================================================================================================
-    public function update(Request $request, User $trainer)
-    {
-        if($request->user()->hasRole('admin')){
-            $trainer->name = $request->name;
-            $trainer->email = $request->email;
-            if ($request->filled('password')) {
-                $trainer->password = Hash::make($request->password);
-            }
-            // معالجة الصورة إذا تم رفعها
-            if ($request->hasFile('image')) {
-                // يمكنك حذف الصورة القديمة هنا إذا لزم الأمر
-                $file = $request->file('image');
-                $path = UploadImage($file,'images/trainers');    
-                $image= $path;
-            }
-            $trainer->image=$image;
-            $trainer->phone = $request->phone;
             $trainer->syncRoles([]);
             $trainer->assignRole($request->role);
             $trainer->save();
-            $trainer->courses()->sync($request->input('courses_ids',[]));
+            $trainer->courses()->sync($validatedData['course_ids']);
             return redirect()->route('trainers.index')->with('success', 'Trainer updated successfully.');
         }
         else{
             abort(403,'you do not have permissions to update a Trainer');
         }
     }
-//=========================================================================================================
 
     // حذف مستخدم معين
     public function destroy(User $trainer)
     {   
         $user=User::findOrfail(Auth::user()->id);
         if($user->hasRole('admin')){
-            // يمكنك حذف الصورة هنا إذا لزم الأمر
+            $trainer->courses()->detach();
             $trainer->delete();
             return redirect()->route('trainers.index')->with('success', 'Trainer deleted successfully.');
         }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\File;
 use App\Models\Course;
+use App\Models\Category;
 use App\Http\Requests\FileRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Comment;
@@ -12,15 +13,20 @@ use App\Models\Comment;
 class FileController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the Files.
      */
     
     public function index()
     {
         $files=File::all();
-        return view('files.index',compact('files'));
+        $categories=Category::with('courses')->get();
+        return view('files.index',compact('files','categories'));
     }
 
+    /**
+     * Display a listing of the resource.
+     */
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -56,19 +62,20 @@ class FileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(File $file)
     {
-        $file=File::where('id',$id)->first();
+        //$file=File::where('id',$id)->first();
         $comments=Comment::where('course_id',$file->course_id)->get();
-        return view('files.video',compact('file','comments'));
+        return view('files.show',compact('file','comments'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(File $file)
     {
-        return view('files.edit', compact('file'));
+        $courses=Course::all();
+        return view('files.edit', compact('file','courses'));
     }
 
     /**
@@ -85,19 +92,22 @@ class FileController extends Controller
 
         // Update name and type
         $file->name = $request->input('name');
-        $file->type = $request->input('type');
         $file->course_id = $request->input('course_id');
-
         // Check if a new file is uploaded
         if ($request->hasFile('file')) {
             // Delete old file
             Storage::delete($file->path);
 
             // Store new file
-            $filePath = $request->file('file')->store('files');
-            $file->path = $filePath;
+            $fileRequest = $request->file('file');
+            $fileType=getFileType(fopen($fileRequest,'r'));
+            $path=storageFolder($fileType,$fileRequest);//file path (helpers folder)
+            $file->type = $fileType;
         }
-
+        else {
+            $path=$request->input('old_file');
+        }
+        $file->path = $path;
         $file->save();
 
         return redirect()->route('files.index')->with('success', 'File updated successfully.');
@@ -109,9 +119,9 @@ class FileController extends Controller
     public function destroy(File $file)
     {
         // Delete the file from storage
-        Storage::delete($file->path);
+        Storage::delete(asset('storage/'.$file->path));
         // Delete the record from the database
-        $file->delete();
+        $file->forceDelete();
 
         return redirect()->route('files.index')->with('success', 'File deleted successfully.');
     }

@@ -130,7 +130,7 @@
                 <i class="mdi mdi-grid menu-icon"></i>
               </a>
             </li>
-                        <li class="nav-item">
+            <li class="nav-item">
               <a class="nav-link" href="{{ route('courses.index') }}">
                 <span class="menu-title">Courses</span>
                 <i class="mdi mdi-book-open-page-variant menu-icon"></i>
