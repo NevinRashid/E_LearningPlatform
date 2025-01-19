@@ -32,7 +32,7 @@ class CourseController extends Controller
 
     {
         $categories= Category::all();
-          return view('courses.create', compact('categories'));
+        return view('courses.create', compact('categories'));
     }
 
     /**

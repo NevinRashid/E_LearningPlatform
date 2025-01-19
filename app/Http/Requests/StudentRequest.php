@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class TrainerRequest extends FormRequest
+class StudentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class TrainerRequest extends FormRequest
     {
         return [
             'name'     => ['required','string','max:255'],
-            'email'    => ['required','email',Rule::unique('users')->ignore($this->route('trainer')),'max:255'],
+            'email'    => ['required','email',Rule::unique('users')->ignore($this->route('student')),'max:255'],
             'phone'     =>['required','string','max:255'],
             'password' => ['required','string','min:8','confirmed'],
             'image'    => ['mimes:jpg,jpeg,png','max:2048'], 

@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TrainerRequest;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\StudentRequest;
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -35,7 +34,7 @@ class StudentController extends Controller
     }
 
     // تخزين مدرب جديد
-    public function store(TrainerRequest $request)
+    public function store(StudentRequest $request)
 {
     $validatedData = $request->validated();
     if ($request->hasFile('image')) {
@@ -55,7 +54,7 @@ class StudentController extends Controller
             'image' => $validatedData['image'] , // إذا لم تكن الصورة موجودة، اجعلها null
         ]);
         $user->assignRole('student');
-        $user->courses()->attach($validatedData['courses_ids']);
+        $user->courses()->attach($validatedData['course_ids']);
         // إعادة توجيه إلى صفحة المستخدمين مع رسالة نجاح
         return redirect('/students')->with('success', 'Student created successfully!');
     }
@@ -78,7 +77,7 @@ class StudentController extends Controller
     }
 
     // تحديث مستخدم معين
-    public function update(TrainerRequest $request, User $student)
+    public function update(StudentRequest $request, User $student)
     {
         if($request->user()->hasRole('admin')){
             $validatedData = $request->validated();
@@ -95,8 +94,11 @@ class StudentController extends Controller
                 $path = UploadImage($file,'images/students');    
                 $validatedData['image']= $path;
             }
+            $student->image=$validatedData['image'];
+            $student->syncRoles([]);
+            $student->assignRole($request->role);
             $student->save();
-            $student->courses()->sync($validatedData['courses_ids']);
+            $student->courses()->sync($validatedData['course_ids']);
             return redirect()->route('students.index')->with('success', 'Student updated successfully.');
         }
         else{
@@ -108,7 +110,7 @@ class StudentController extends Controller
     {
         $user=User::findOrfail(Auth::user()->id);
         if($user->hasRole('admin')){
-            // يمكنك حذف الصورة هنا إذا لزم الأمر
+            $student->courses()->detach();
             $student->delete();
             return redirect()->route('students.index')->with('success', 'Student deleted successfully.');
         }

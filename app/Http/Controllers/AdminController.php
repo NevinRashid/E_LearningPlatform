@@ -80,7 +80,7 @@ class AdminController extends Controller
         if($request->user()->hasRole('admin')){
             $validatedData = $request->validated();
             $admin->name = $validatedData['name'];
-            $admin->email = $validatedData['email'];
+            $admin->email = $request->email;
             $admin->phone = $validatedData['phone'];
             if ($request->filled('password')) {
                 $admin->password = Hash::make($validatedData['password']);
@@ -93,9 +93,9 @@ class AdminController extends Controller
                 $validatedData['image']= $path;
             }
             $admin->image = $validatedData['image'];
-            $admin->syncRoles([]);
-            $admin->assignRole($validatedData['role']);
             $admin->save();
+            $admin->syncRoles([]);
+            $admin->assignRole($request->role);
             return redirect()->route('admins.index')->with('success', 'Admin updated successfully.');
         }
             else{
@@ -107,7 +107,6 @@ class AdminController extends Controller
     {
         $user=User::findOrfail(Auth::user()->id);
         if($user->hasRole('admin')){
-            // يمكنك حذف الصورة هنا إذا لزم الأمر
             $admin->delete();
             return redirect()->route('admins.index')->with('success', 'Admin deleted successfully.');
         }

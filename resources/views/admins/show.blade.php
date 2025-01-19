@@ -4,7 +4,7 @@
     <div class="col-12 grid-margin">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Recent Admin</h4>
+                <h4 class="card-title">Current Admin</h4>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -18,6 +18,11 @@
                         <tbody>
                             <tr>
                                 <td>
+                                    @if (file_exists('storage/'.$admin->image))
+                                        <img src="{{ asset('storage/'.$admin->image) }}" class="me-2" alt=""> {{ $admin->name}}
+                                    @else
+                                        <img src="{{asset('storage/images/face.webp')}}" class="me-2" alt=""> {{ $admin->name}}
+                                    @endif 
                                     <img src="{{ asset('storage/'.$admin->image) }}" class="me-2" alt=""> {{ $admin->name }}
                                 </td>
                                 <td> {{ $admin->email }} </td>
