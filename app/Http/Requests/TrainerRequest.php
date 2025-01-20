@@ -26,7 +26,7 @@ class TrainerRequest extends FormRequest
             'name'     => ['required','string','max:255'],
             'email'    => ['required','email',Rule::unique('users')->ignore($this->route('trainer')),'max:255'],
             'phone'     =>['required','string','max:255'],
-            'password' => ['required','string','min:8','confirmed'],
+            'password' => ['nullable','string','min:8','confirmed'],
             'image'    => ['mimes:jpg,jpeg,png','max:2048'], 
             'course_ids' => ['required','array'],
             'course_ids.*'=>['required','exists:courses,id'],
@@ -40,7 +40,6 @@ class TrainerRequest extends FormRequest
             'phone'       => 'The phone is required.',
             'password.min'    => 'The password is required to be more than 8 characters',
             'password.confirmed'    => 'The password does not match',
-            'image'       => 'The image is required.',
         ];
     }
 }

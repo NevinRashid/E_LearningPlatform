@@ -25,15 +25,15 @@ class Course extends Model
     }
 
     public function files(){
-        return $this->hasMany(File::class);
+        return $this->hasMany(File::class)->withTrashed();;
     }
 
     public function comments(){
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->withTrashed();
     }
 
     public function ratings(){
-        return $this->hasMany(Rating::class);
+        return $this->hasMany(Rating::class)->withTrashed();;
     }
 
     public function users() {

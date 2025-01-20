@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}" />
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
     
   </head>
@@ -49,8 +48,11 @@
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href{{ route('dashboard') }} data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="nav-profile-img">
-
+                  @if (file_exists('storage/'. Auth::user()->image))
                   <img src="{{ asset('storage/'. Auth::user()->image) }}" alt="image">
+                @else
+                  <img src="{{asset('storage/images/face.webp')}}" class="me-2" alt="">
+                @endif 
                   <span class="availability-status online"></span>
                 </div>
                 <div class="nav-profile-text">
@@ -90,7 +92,11 @@
             <li class="nav-item nav-profile">
               <a href="#" class="nav-link">
                 <div class="nav-profile-image">
-                  <img src="{{ asset('storage/'. Auth::user()->image) }}" alt="" />
+                  @if (file_exists('storage/'. Auth::user()->image))
+                  <img src="{{ asset('storage/'. Auth::user()->image) }}" alt="image">
+                @else
+                  <img src="{{asset('storage/images/face.webp')}}" class="me-2" alt="">
+                @endif 
                   <span class="login-status online"></span>
                   <!--change to offline or busy as needed-->
                 </div>

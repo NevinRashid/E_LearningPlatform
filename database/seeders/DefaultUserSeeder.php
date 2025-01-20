@@ -9,37 +9,37 @@ class DefaultUserSeeder extends Seeder
 {
     public function run()
     {
+        $image= asset('images/face.webp');
+        $admin = User::firstOrCreate([
+            'name' => 'Nevin',
+            'email' => 'nevin@gmail.com',
+            'password' => bcrypt('123456789'),  
+            'image' => $image,
+            'phone' => '0000000000',
+        ]);
+
+        $trainer = User::firstOrCreate([
+            'name' => 'Rola',
+            'email' => 'rola@gmail.com',
+            'password' => bcrypt('123456789'),  
+            'image' => $image,
+            'phone' => '0000000000',
+        ]);
+
+        $student = User::firstOrCreate([
+            'name' => 'Mouaz',
+            'email' => 'mouaz@gmail.com',
+            'password' => bcrypt('123456789'),  
+            'image' => $image,
+            'phone' => '0000000000',
+        ]);
+
         $user = User::firstOrCreate([
-            'name' => 'Default Admin',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('12345678'),  
-            'image' => 'defaultAdmin.png',
+            'name' => 'Tareq',
+            'email' => 'tareq@gmail.com',
+            'password' => bcrypt('123456789'),  
+            'image' => $image,
             'phone' => '0000000000',
-        ]);
-        $user1 = User::firstOrCreate([
-            'name' => 'Default Trainer',
-            'email' => 'trainer@example.com',
-            'password' => bcrypt('12345678'),  
-            'image' => 'defaultTrainer.png',
-            'phone' => '0000000000',
-
-        ]);
-        $user2 = User::firstOrCreate([
-            'name' => 'Default Student',
-            'email' => 'student@example.com',
-            'password' => bcrypt('12345678'),  
-            'image' => 'defaultStudent.png',
-            'phone' => '0000000000',
-
-
-        ]);
-        $user3 = User::firstOrCreate([
-            'name' => 'Default User',
-            'email' => 'user@example.com',
-            'password' => bcrypt('12345678'),  
-            'image' => 'defaultUser.png',
-            'phone' => '0000000000',
-
         ]);
 
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
@@ -47,10 +47,10 @@ class DefaultUserSeeder extends Seeder
         $studentRole = Role::firstOrCreate(['name' => 'student']);
         $usertRole = Role::firstOrCreate(['name' => 'user']);
 
-        $user->assignRole($adminRole);  
-        $user1->assignRole($trainerRole);  
-        $user2->assignRole($studentRole);  
-        $user3->assignRole($usertRole);  
+        $admin->assignRole($adminRole);  
+        $trainer->assignRole($trainerRole);  
+        $student->assignRole($studentRole);  
+        $user->assignRole($usertRole);  
 
     }
 }

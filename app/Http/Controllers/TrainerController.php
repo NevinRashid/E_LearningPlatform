@@ -79,7 +79,7 @@ class TrainerController extends Controller
     }
 
     // تحديث مستخدم معين
-  public function update(TrainerRequest $request, User $trainer)
+public function update(TrainerRequest $request, User $trainer)
     {
         if($request->user()->hasRole('admin')){
             $validatedData = $request->validated();
@@ -87,6 +87,9 @@ class TrainerController extends Controller
             $trainer->email = $validatedData['email'];
             if ($request->filled('password')) {
                 $trainer->password = Hash::make($validatedData['password']);
+            }
+            else {
+                unset($validatedData['password']);
             }
             // معالجة الصورة إذا تم رفعها
             if ($request->hasFile('image')) {

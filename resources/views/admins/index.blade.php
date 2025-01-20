@@ -15,6 +15,7 @@
             </div>
         @endif
     </div>
+@if ($admins->count()>0)
 <div class="row">
     <div class="col-12 grid-margin">
       <div class="card">
@@ -74,7 +75,9 @@
       </div>
     </div>
   </div>
-  <div class="col">
-    {{ $admins->links() }}
-  </div>
+  @else
+<div class="row">
+    <p>There are no admins currently</p>
+</div>
+@endif
 @endsection

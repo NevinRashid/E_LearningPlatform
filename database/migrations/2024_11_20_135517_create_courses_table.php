@@ -19,7 +19,8 @@ return new class extends Migration
             $table->decimal('price',10,2);
             $table->integer('capacity');
             $table->date('start_date');
-            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -28,15 +28,15 @@
                                 </div>
                         </div>
                         <div class="col-md-4">
-                                <label class="col-sm-8 col-form-label">Password</label>
+                                <label class="col-sm-8 col-form-label">Password <small class="text-muted">( if you want to change the password )</small></label>
                                 <div class="col-sm-9">
-                                    <input type="password" name="password" class="form-control" value="{{ $student->password }}">
+                                    <input type="password" name="password" class="form-control" placeholder="Enter new password">
                                 </div>
                         </div>
                         <div class="col-md-4">
                             <label class="col-sm-8 col-form-label">Confirmed Password</label>
                             <div class="col-sm-9">
-                                <input type="password" name="password_confirmation" class="form-control" value="{{ $student->password }}">
+                                <input type="password" name="password_confirmation" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-4">
