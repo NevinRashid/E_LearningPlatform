@@ -26,6 +26,7 @@ class TrainerController extends Controller
     {
         $trainers = User::role('trainer')->with('courses')->paginate(10);
         return view('trainers.index', compact('trainers'));
+    
     }
 
     // عرض نموذج إنشاء مدرب جديد

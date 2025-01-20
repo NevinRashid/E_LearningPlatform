@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,16 +8,8 @@
     <link rel="stylesheet" href="{{asset('assets/vendors/ti-icons/css/themify-icons.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/css/vendor.bundle.base.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/font-awesome/css/font-awesome.min.css')}}">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="{{asset('assets/vendors/font-awesome/css/font-awesome.min.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <!-- endinject -->
-    <!-- Layout styles -->
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
-    <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -49,9 +41,11 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="btn btn-gradient-primary btn-custom" href="{{ route('register') }}">Register</a>                    </li>
+                        <a class="btn btn-gradient-primary btn-custom" href="{{ route('register') }}">Register</a>
+                    </li>
                     <li class="nav-item">
-                        <a class="btn btn-gradient-primary btn-custom" href="{{ route('login') }}">Login</a>                    </li>
+                        <a class="btn btn-gradient-primary btn-custom" href="{{ route('login') }}">Login</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -67,7 +61,7 @@
     <section class="container my-5">
         <h2 class="section-title">Available Courses</h2>
         <div class="row">
-            {{-- @foreach ($courses as $course)
+            @foreach ($courses as $course)
                 <div class="col-md-4 mb-3">
                     <div class="card">
                         <div class="card-body">
@@ -77,7 +71,7 @@
                         </div>
                     </div>
                 </div>
-            @endforeach --}}
+            @endforeach
         </div>
     </section>
 
@@ -85,7 +79,7 @@
     <section class="container my-5">
         <h2 class="section-title">Our Trainers</h2>
         <div class="row">
-            {{-- @foreach ($trainers as $trainer)
+            @foreach ($trainers as $trainer)
                 <div class="col-md-3 mb-3">
                     <div class="card">
                         <div class="card-body text-center">
@@ -94,7 +88,7 @@
                         </div>
                     </div>
                 </div>
-            @endforeach --}}
+            @endforeach
         </div>
     </section>
 
@@ -102,7 +96,7 @@
     <section class="container my-5">
         <h2 class="section-title">Categories</h2>
         <div class="row">
-            {{-- @foreach ($categories as $category)
+            @foreach ($categories as $category)
                 <div class="col-md-2 mb-3">
                     <div class="card">
                         <div class="card-body text-center">
@@ -110,10 +104,10 @@
                         </div>
                     </div>
                 </div>
-            @endforeach --}}
+            @endforeach
         </div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html> --}}

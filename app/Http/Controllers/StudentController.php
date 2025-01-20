@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Category;
 
 class StudentController extends Controller
 {
@@ -117,11 +118,18 @@ class StudentController extends Controller
         }
     }
 
-    //عرض صفحة عند انشاء الطالب حساب
-    public function studentPage()
-    {
-        return view('student');
-    }
+    public function studentDashboard()
+{
+    // جلب الكورسات المسجلة للطالب
+    $myCourses = Auth::user()->courses;
+
+    // جلب جميع الكورسات المتاحة في الموقع
+    $availableCourses = Course::whereNotIn('id', Auth::user()->courses->pluck('id'))->get();
+    $categories = Category::with('courses')->get();
+
+    // إرسال البيانات إلى الـ View
+    return view('students.dashboard', compact('myCourses', 'availableCourses', 'categories'));
+}
 
 }
 

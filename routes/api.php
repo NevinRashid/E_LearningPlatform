@@ -4,6 +4,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\RatingController;
+use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CourseController;
+use App\Http\Controllers\StudentController;
+
 // تسجيل مستخدم جديد
 Route::post('/register', function (Request $request) {
     $request->validate([
@@ -52,4 +58,16 @@ Route::post('/courses',[CategoryController::class,'byCategory']);
 
 Route::post('/comments', [CommentController::class, 'store'])->middleware('auth:sanctum');
 Route::post('/ratings', [RatingController::class, 'store'])->middleware('auth:sanctum');
+
+Route::post('/course/register/{course}', [CourseController::class, 'register'])
+->middleware('auth') // استخدام middleware للتحقق من صحة API authentication
+->name('course.register');
+
+Route::delete('/course/unregister/{course}', [CourseController::class, 'unregister'])
+->middleware('auth') // استخدام middleware للتحقق من صحة API authentication
+->name('course.unregister');
+
+Route::get('/student', [StudentController::class, 'studentDashboard'])
+    ->middleware('auth') // يجب أن يكون المستخدم مسجل الدخول
+    ->name('student.dashboard');
 
