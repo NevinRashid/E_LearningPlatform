@@ -42,7 +42,6 @@
                             <td> 
                                 @if (auth()->user()->hasRole('admin'))  
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="{{ route('comments.show', $comment) }}" class="btn btn-outline-success btn-sm">show</a>
                                         <a href="{{ route('comments.edit', $comment) }}" class="btn btn-outline-info btn-sm">edit</a>
                                         <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" class="d-inline">
                                             @csrf
