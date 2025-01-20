@@ -64,7 +64,7 @@
     </section>
 
     <!-- قائمة الكورسات -->
-    <section class="container my-5">
+    {{--  <section class="container my-5">
         <h2 class="section-title">Available Courses</h2>
         <div class="row">
             {{-- @foreach ($courses as $course)
@@ -77,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-            @endforeach --}}
+            @endforeach 
         </div>
     </section>
 
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-            @endforeach --}}
+            @endforeach 
         </div>
     </section>
 
@@ -110,10 +110,10 @@
                         </div>
                     </div>
                 </div>
-            @endforeach --}}
+            @endforeach --
         </div>
     </section>
-
+--}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

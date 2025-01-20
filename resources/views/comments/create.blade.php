@@ -31,7 +31,6 @@
                                 @endforeach
                             </select>
                         </div>
-                        <input type="hidden" name="file_id" value="Null">
                     </div>
                 </div>
             </div>

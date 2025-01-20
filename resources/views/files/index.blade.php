@@ -16,6 +16,7 @@
     @endif
 </div>
 
+@if ($files->count()>0)
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
@@ -71,4 +72,10 @@
         </div>
     </div>
 </div>
+
+@else
+<div class="row">
+    <p>There are no files currently</p>
+</div>
+@endif
 @endsection
