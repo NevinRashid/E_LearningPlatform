@@ -92,8 +92,8 @@
             <li class="nav-item nav-profile">
               <a href="#" class="nav-link">
                 <div class="nav-profile-image">
-                  @if (file_exists('storage/'. Auth::user()->image))
-                  <img src="{{ asset('storage/'. Auth::user()->image) }}" alt="image">
+                  @if (file_exists('storage/'.Auth::user()->image))
+                  <img src="{{ asset('storage/'.Auth::user()->image) }}" alt="image">
                 @else
                   <img src="{{asset('storage/images/face.webp')}}" class="me-2" alt="">
                 @endif 

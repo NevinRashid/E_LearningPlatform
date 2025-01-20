@@ -25,7 +25,7 @@ class UserRequest extends FormRequest
         return [
             'name'     => ['required','string','max:255'],
             'email'    => ['required','email',Rule::unique('users')->ignore($this->route('admin')),'max:255'],
-            'phone'     =>['required','string','max:255','regex:/^\+?\d{1,2}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/'],
+            'phone'     =>['required','string','max:255'],
             'password' => ['nullable','string','min:8','confirmed'],
             'image'    => ['nullable','mimes:jpg,jpeg,png','max:2048'], 
         ];
@@ -37,7 +37,6 @@ class UserRequest extends FormRequest
             'name.required'        => 'The name is required.',
             'email.required'       => 'The email is required.',
             'phone.required'       => 'The phone is required.',
-            'password.required'    => 'The password is required.',
             'password.confirmed'    => 'The password does not match',
         ];
     }
