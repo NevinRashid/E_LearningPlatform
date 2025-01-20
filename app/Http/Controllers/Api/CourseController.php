@@ -7,94 +7,99 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Course;
 use App\Models\User;
+use App\Models\File;
+use App\Models\Rating;
+// use E_LearningPlatform\app\Models\User;
 
 class CourseController extends Controller
 {
-
-    public function register(Course $course)
-{
-    $user_id = Auth::user()->id;
-    $user = User::find($user_id);
-
-    // التحقق من وجود المستخدم
-    if (!$user) {   
-        return redirect()->route('login')->with('error', 'User not found.');
+    public function index()
+    {
+        $courses = Course::with('category')->get();
+        return response()->json([$courses], 200);
     }
 
-    // التحقق مما إذا كان المستخدم مسجلًا بالفعل في الكورس
-    if ($user->courses()->where('course_id', $course->id)->exists()) {
-        return redirect()->back()->with('error', 'You are already registered for this course.');
+    public function byCategory($category_id)
+    {
+        $courses = Course::with('category')->where('category_id', $category_id)->get();
+        return response()->json([$courses], 200);
     }
 
-    // تسجيل المستخدم في الكورس
-    $user->courses()->attach($course->id);
-
-    // إعادة توجيه المستخدم إلى الصفحة الرئيسية مع رسالة نجاح
-    return redirect()->route('student.dashboard')->with('success', 'You have successfully registered for the course.');
-}
-
-public function unregister(Course $course)
-{
-    $user_id = Auth::user()->id;
-    $user = User::find($user_id);
-
-    // التحقق من وجود المستخدم
-    if (!$user) {
-        return redirect()->route('login')->with('error', 'User not found.');
+    public function show($id)
+    {
+        $videos = File::with('course')->where('course_id', $id)
+            ->where('type', 'video')
+            ->get();
+        $files = File::with('course')->where('course_id', $id)
+            ->where('type', '<>', 'video')
+            ->get();
+        $rating = Rating::with('course')->where('course_id', $id)->avg('rating_value');
+        return response()->json(["videos" => $videos, "files" => $files, 'Average_rate' => $rating . '/5'], 200);
     }
 
-    // التحقق مما إذا كان المستخدم مسجلًا في الكورس
-    if (!$user->courses()->where('course_id', $course->id)->exists()) {
-        return redirect()->back()->with('error', 'You are not registered for this course.');
+    public function register(Request $request, Course $course = null)
+    {
+        if ($course) {
+            // الكود من Mouaz-Ha-4 (يعتمد على Course $course ويستخدم redirect)
+            $user_id = Auth::user()->id;
+            $user = User::find($user_id);
+
+            if (!$user) {
+                return redirect()->route('login')->with('error', 'User not found.');
+            }
+
+            if ($user->courses()->where('course_id', $course->id)->exists()) {
+                return redirect()->back()->with('error', 'You are already registered for this course.');
+            }
+
+            $user->courses()->attach($course->id);
+            return redirect()->route('student.dashboard')->with('success', 'You have successfully registered for the course.');
+        } else {
+            // الكود من الملف الأصلي (يعتمد على Request $request ويستخدم JSON)
+            if ($request->user()->hasRole('student')) {
+                $user_id = Auth::user()->id;
+                $user = User::find($user_id);
+
+                if ($user->courses()->where('course_id', $request->course_id)->exists()) {
+                    return response()->json(['message' => 'You are already registered for this course.'], 400);
+                }
+
+                $user->courses()->attach($request->course_id);
+                return response()->json(['message' => 'You have successfully registered for the course.'], 201);
+            } else {
+                return response()->json(['message' => 'You can not register before login.'], 201);
+            }
+        }
     }
 
-    // إلغاء تسجيل المستخدم من الكورس
-    $user->courses()->detach($course->id);
+    public function unregister(Request $request, Course $course = null)
+    {
+        if ($course) {
+            // الكود من Mouaz-Ha-4 (يعتمد على Course $course ويستخدم redirect)
+            $user_id = Auth::user()->id;
+            $user = User::find($user_id);
 
-    // إعادة توجيه المستخدم إلى الصفحة الرئيسية مع رسالة نجاح
-    return redirect()->route('student.dashboard')->with('success', 'You have successfully unregistered from the course.');
-}
-    // public function register(Course $course)
-    // {
-    //     $user_id = Auth::user()->id;
-    //     $user = User::find($user_id);
+            if (!$user) {
+                return redirect()->route('login')->with('error', 'User not found.');
+            }
 
-    //     // التحقق من وجود المستخدم
-    //     if (!$user) {   
-    //         return redirect()->route('login')->with('error', 'User not found.');
-    //     }
+            if (!$user->courses()->where('course_id', $course->id)->exists()) {
+                return redirect()->back()->with('error', 'You are not registered for this course.');
+            }
 
-    //     // التحقق مما إذا كان المستخدم مسجلًا بالفعل في الكورس
-    //     if ($user->courses()->where('course_id', $course->id)->exists()) {
-    //         return redirect()->back()->with('error', 'You are already registered for this course.');
-    //     }
+            $user->courses()->detach($course->id);
+            return redirect()->route('student.dashboard')->with('success', 'You have successfully unregistered from the course.');
+        } else {
+            // الكود من الملف الأصلي (يعتمد على Request $request ويستخدم JSON)
+            $user_id = Auth::user()->id;
+            $user = User::find($user_id);
 
-    //     // تسجيل المستخدم في الكورس
-    //     $user->courses()->attach($course->id);
+            if (!$user->courses()->where('course_id', $request->course_id)->exists()) {
+                return response()->json(['message' => 'You are not registered for this course.'], 400);
+            }
 
-    //     // إعادة توجيه المستخدم إلى الصفحة الرئيسية مع رسالة نجاح
-    //     return redirect()->route('student.dashboard')->with('success', 'You have successfully registered for the course.');
-    // }
-
-    // public function unregister(Course $course)
-    // {
-    //     $user_id = Auth::user()->id;
-    //     $user = User::find($user_id);
-
-    //     // التحقق من وجود المستخدم
-    //     if (!$user) {
-    //         return redirect()->route('login')->with('error', 'User not found.');
-    //     }
-
-    //     // التحقق مما إذا كان المستخدم مسجلًا في الكورس
-    //     if (!$user->courses()->where('course_id', $course->id)->exists()) {
-    //         return redirect()->back()->with('error', 'You are not registered for this course.');
-    //     }
-
-    //     // إلغاء تسجيل المستخدم من الكورس
-    //     $user->courses()->detach($course->id);
-
-    //     // إعادة توجيه المستخدم إلى الصفحة الرئيسية مع رسالة نجاح
-    //     return redirect()->route('student.dashboard')->with('success', 'You have successfully unregistered from the course.');
-    // }
+            $user->courses()->detach($request->course_id);
+            return response()->json(['message' => 'You have successfully unregistered from the course.'], 200);
+        }
+    }
 }

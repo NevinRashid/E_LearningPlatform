@@ -13,188 +13,10 @@
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   
-    {{-- <style>
-        .hero-section {
-            background: linear-gradient(135deg,#da8cff,#9a55ff);
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-        }
-
-        .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: none;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #fff;
-            margin-bottom: 20px;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-custom {
-            margin: 10px;
-            padding: 10px 20px;
-            background: linear-gradient(135deg,#da8cff,#9a55ff
-            );
-            border: none;
-            color: white;
-            transition: transform 0.3s ease;
-            border-radius: 25px;
-        }
-
-        .btn-custom:hover {
-            transform: scale(1.05);
-        }
-
-        .section-title {
-            margin: 20px 0;
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .card-img-top {
-            border-radius: 10px 10px 0 0;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        /* أنماط للقوائم */
-        .list-group-item {
-            transition: background-color 0.3s ease;
-        }
-
-        .list-group-item:hover {
-            background-color: #f8f9fa;
-        }
-
-        .category-card {
-    background-size: cover; /* تغطية كاملة للخلفية */
-    background-position: center; /* توسيط الصورة */
-    border-radius: 10px; /* زوايا مدورة */
-    padding: 20px; /* تباعد داخلي */
-    text-align: center; /* توسيط النص */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* تأثيرات تحويم */
-    height: 150px; /* ارتفاع ثابت للبطاقة */
-    display: flex;
-    align-items: center; /* توسيط عمودي */
-    justify-content: center; /* توسيط أفقي */
-    color: white; /* لون النص أبيض */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* ظل للنص */
-    border: 1px solid rgba(255, 255, 255, 0.2); /* حدود شفافة */
-    position: relative; /* لتحديد موقع النص */
-    overflow: hidden; /* لإخفاء أي محتوى يخرج عن البطاقة */
-}
-
-.category-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4); /* طبقة شفافة فوق الصورة */
-    z-index: 1; /* تأكد من أن الطبقة فوق الصورة */
-}
-
-.category-card h5 {
-    position: relative; /* لجعل النص فوق الطبقة الشفافة */
-    z-index: 2; /* تأكد من أن النص فوق الطبقة الشفافة */
-    font-size: 1.25rem; /* حجم الخط */
-    font-weight: bold; /* سمك الخط */
-    transition: transform 0.3s ease; /* تأثيرات تحويم للنص */
-}
-
-.category-card:hover {
-    transform: scale(1.1); /* تكبير البطاقة بنسبة 10% */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* ظل عند التحويم */
-}
-
-.category-card:hover h5 {
-    transform: scale(1.1); /* تكبير النص بنسبة 10% */
-}
-
-    .course-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: none;
-        border-radius: 15px;
-        overflow: hidden;
-        background: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .course-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    .card-title {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 15px;
-    }
-
-    .card-text {
-        font-size: 1rem;
-        color: #666;
-        margin-bottom: 20px;
-    }
-
-    .btn-custom {
-        background: linear-gradient(135deg, #da8cff, #9a55ff);
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 25px;
-        transition: transform 0.3s ease;
-    }
-
-    .btn-custom:hover {
-        transform: scale(1.05);
-    }
-
-    .trainer-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        padding: 20px;
-        border-radius: 15px;
-        background: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .trainer-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    .trainer-image img {
-        width: 150px;
-        height: 150px;
-        border: 5px solid #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .trainer-name h5 {
-        font-size: 1.25rem;
-        font-weight: bold;
-        color: #333;
-        margin-top: 15px;
-    }
-
-    .trainer-name small {
-        font-size: 0.9rem;
-        color: #666;
-    }
-    .trainer-card {
-background: linear-gradient(135deg, #f5f7fa, #e6e6fa);
-}
-</style> --}}
-
-
+        <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{{asset('assets/images/favicon.png')}}" />
+    
 
 <style>
     /* Hero Section */
@@ -454,7 +276,12 @@ background: linear-gradient(135deg, #f5f7fa, #e6e6fa);
         @endforeach
         </div>
     </section>
-   
+    <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+          <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2025.Focal X Academy. All rights reserved.</span>
+          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">by X6 Back-end Beg V.7 <i class="mdi mdi-heart text-danger"></i></span>
+        </div>
+      </footer>
     <!-- استيراد ملفات JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
