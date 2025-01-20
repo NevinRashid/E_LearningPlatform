@@ -8,11 +8,9 @@
     </h3>
 </div>
 <div class="row">
-    @if (auth()->user()->hasRole('admin'))  
         <div class="col">
             <a href="{{ route('comments.create') }}" class="btn btn-gradient-primary btn-lg mb-4 ">Add new comment</a>
         </div>
-    @endif
 </div>
 @if ($comments->count()>0)
 <div class="col-lg-12 grid-margin stretch-card">
