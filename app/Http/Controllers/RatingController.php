@@ -20,8 +20,8 @@ class RatingController extends Controller
      */
     public function index()
     {
-        $ratings=Rating::paginate(10);
-        return view('comments.index',compact('ratings'));
+        $ratings=Rating::with('course')->paginate(10);
+        return view('ratings.index',compact('ratings'));
     }
 
     /**
@@ -41,8 +41,19 @@ class RatingController extends Controller
     {
         if($request->user()->hasRole('admin')||$request->user()->hasRole('trainer')){
             $validatedData=$request->validated();
-            Rating::create(['user_id'=>Auth::user()->id,'course_id'=>$validatedData['course_id'],'comment_text'=>$validatedData['comment_text']]);
-            return redirect()->route('comments.index')->with('success', 'Comment Added successfully!');
+            // Check if the user has already rated this course
+                $existingRating = Rating::where('course_id', $validatedData['course_id'])
+                ->where('user_id', Auth::user()->id)
+                ->first();
+
+            if ($existingRating) {
+            return back()->with('error', 'You have already rated this course.');
+            }
+            else{
+                Rating::create(['user_id'=>Auth::user()->id,'course_id'=>$validatedData['course_id'],'rating_value'=>$validatedData['rating_value']]);
+                return redirect()->route('ratings.index')->with('success', 'Rating Added successfully!');
+            }
+
         }
     }
 
@@ -86,41 +97,10 @@ class RatingController extends Controller
         $user=User::findOrfail(Auth::user()->id);
         if($user->hasRole('admin')){
             $rating->delete();
-            return redirect()->route('comments.index')->with('success', 'Comment deleted successfully!');
+            return redirect()->route('ratings.index')->with('success', 'Comment deleted successfully!');
         }
         else{
             abort(403,'you do not have permissions to delete a Comment');
         }
     }
-
-    
-
-    public function rate(RatingRequest $request, Course $course)
-    {
-        
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'You must be logged in to rate a course.');
-        }
-
-        $user = Auth::user(); // Get the authenticated user
-        $ratingValue = $request->input('rating_value'); // Get the rating value from the form
-        // Check if the user has already rated this course
-        $existingRating = Rating::where('course_id', $course->id)
-            ->where('user_id', $user->id)
-            ->first();
-
-        if ($existingRating) {
-            return back()->with('error', 'You have already rated this course.');
-        }
-
-        // Create a new rating
-        Rating::create([
-            'user_id' => $user->id,
-            'course_id' => $course->id,
-            'rating_value' => $request->rating_value,
-        ]);
-
-        return back()->with('success', 'Your rating has been submitted.');
-    }
 }
-

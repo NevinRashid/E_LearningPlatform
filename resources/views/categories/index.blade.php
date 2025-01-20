@@ -62,13 +62,13 @@
             </div>
         @endif
     </div>
-
+    @if ($categories->count()>0)
     <!-- عرض التصنيفات كبطاقات -->
     <div class="row g-4">
         @foreach($categories as $category)
             <div class="col-lg-3 col-md-6">
                 <div class="card category-card shadow-sm">
-                    <img src="{{ asset('imgs/' . $category->image) }}" class="card-img-top" alt="category image">
+                    <img src="{{ asset('imgs/'.$category->image) }}" class="card-img-top" alt="category image">
                     <div class="card-body">
                         <h5 class="card-title">{{ $category->name }}</h5>
                         @if (auth()->user()->hasRole('admin'))  
@@ -88,5 +88,9 @@
         @endforeach 
     </div>
 </div>
-
+@else
+<div class="row">
+    <p>There are no categories currently</p>
+</div>
+@endif
 @endsection

@@ -14,7 +14,7 @@
         </div>
     @endif
 </div>
-
+@if ($comments->count()>0)
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
@@ -28,6 +28,8 @@
                             <th> comment writer </th>
                             <th> role </th>
                             <th> course </th>
+                            <th> commented at</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,6 +40,7 @@
                             <td>{{ $comment->user->name }}</td>
                             <td>{{ $comment->user->getRoleNames()->first() }}</td>
                             <td>{{$comment->course->title}} </td>
+                            <td>{{$comment->created_at}} </td>
                             <td> 
                                 @if (auth()->user()->hasRole('admin'))  
                                     <div class="d-flex justify-content-center gap-2">
@@ -69,4 +72,9 @@
         </div>
     </div>
 </div>
+@else
+<div class="row">
+    <p>There are no comments currently</p>
+</div>
+@endif
 @endsection

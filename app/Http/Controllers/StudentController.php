@@ -92,6 +92,9 @@ class StudentController extends Controller
             if ($request->filled('password')) {
                 $student->password = Hash::make($validatedData['password']);
             }
+            else {
+                unset($validatedData['password']);
+            }
             // معالجة الصورة إذا تم رفعها
             if ($request->hasFile('image')) {
                 // يمكنك حذف الصورة القديمة هنا إذا لزم الأمر
