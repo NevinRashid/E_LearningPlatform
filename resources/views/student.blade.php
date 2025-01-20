@@ -33,12 +33,47 @@
                                 <h3 class="font-weight-light">you are student please go to Api.</h3>
                             </div>
                         </div>
+                        
+                        <!-- Application Form for Teaching -->
+                        <div class="row mt-5">
+                            <div class="col-12 text-center">
+                                <h3>Apply to Teach</h3>
+                                <form action="{{ route('teacher.submit') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+
+                                    <!-- Select available courses -->
+                                    <div class="form-group">
+                                        <label for="course">Available Course</label>
+                                        <select class="form-control" id="course" name="course">
+                                            @foreach($courses as $course)
+                                            <option value="{{$course->id}}"> {{$course->title}}</option>
+                                            @endforeach
+                                            <!-- <option value="course_1">Course 1</option>
+                                            <option value="course_2">Course 2</option>
+                                            <option value="course_3">Course 3</option> -->
+                                            <!-- Add your available courses dynamically here -->
+                                        </select>
+                                    </div>
+
+                                    <!-- Upload CV -->
+                                    <div class="form-group">
+                                        <label for="cv">Upload your CV</label>
+                                        <input type="file" class="form-control" id="cv" name="cv" required>
+                                    </div>
+
+                                    <!-- Submit the application -->
+                                    <button type="submit" class="btn btn-success">Submit Application</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Back to Home -->
                         <div class="row mt-5">
                             <div class="col-12 text-center mt-xl-2">
-                                <a class="text-white font-weight-medium"  href="{{ route('logout') }}"
-                                                                                    onclick="event.preventDefault();
-                                                                                    document.getElementById('logout-form').submit();">Back to home</a>
-                                <form method="POST" id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                <a class="text-white font-weight-medium" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">Back to home</a>
+                                <form method="POST" id="logout-form" action="{{ route('logout') }}" class="d-none">
                                     @csrf
                                 </form>
                             </div>
