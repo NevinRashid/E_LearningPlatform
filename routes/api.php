@@ -71,3 +71,4 @@ Route::get('/student', [StudentController::class, 'studentDashboard'])
     ->middleware('auth') // يجب أن يكون المستخدم مسجل الدخول
     ->name('student.dashboard');
 
+    Route::get('/course/{courseId}/files', [CourseController::class, 'getFiles'])->name('course.files');

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Category;
+use App\Models\File;
 
 class StudentController extends Controller
 {
@@ -20,6 +21,7 @@ class StudentController extends Controller
     {
         $this->middleware('auth');
     }
+
 
     // عرض المدربين
     public function index()
@@ -31,39 +33,38 @@ class StudentController extends Controller
     // عرض نموذج إنشاء مدرب جديد
     public function create()
     {
-        $courses=Course::all();
-        return view('students.create',compact('courses'));
+        $courses = Course::all();
+        return view('students.create', compact('courses'));
     }
 
     // تخزين مدرب جديد
     public function store(TrainerRequest $request)
-{
-    $validatedData = $request->validated();
-    if ($request->hasFile('image')) {
-        $file = $request->file('image');
-        // استخدم دالة uploadImage لتخزين الصورة
-        $path = UploadImage($file, "images/students");
-        // أضف مسار الصورة إلى البيانات المرسلة
-        $validatedData['image'] = $path;
+    {
+        $validatedData = $request->validated();
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            // استخدم دالة uploadImage لتخزين الصورة
+            $path = UploadImage($file, "images/students");
+            // أضف مسار الصورة إلى البيانات المرسلة
+            $validatedData['image'] = $path;
+        }
+        // إنشاء مستخدم جديد مع البيانات الموثوقة بعد فحص السماحية
+        if ($request->user()->hasRole('admin')) {
+            $user = User::create([
+                'name' => $validatedData['name'],
+                'email' => $validatedData['email'],
+                'phone' => $validatedData['phone'],
+                'password' => bcrypt($validatedData['password']), // تأكد من تشفير كلمة المرور
+                'image' => $validatedData['image'], // إذا لم تكن الصورة موجودة، اجعلها null
+            ]);
+            $user->assignRole('student');
+            $user->courses()->attach($validatedData['courses_ids']);
+            // إعادة توجيه إلى صفحة المستخدمين مع رسالة نجاح
+            return redirect('/students')->with('success', 'Student created successfully!');
+        } else {
+            abort(403, 'you do not have permissions to add a Student');
+        }
     }
-    // إنشاء مستخدم جديد مع البيانات الموثوقة بعد فحص السماحية
-    if($request->user()->hasRole('admin')){
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'phone' => $validatedData['phone'],
-            'password' => bcrypt($validatedData['password']), // تأكد من تشفير كلمة المرور
-            'image' => $validatedData['image'] , // إذا لم تكن الصورة موجودة، اجعلها null
-        ]);
-        $user->assignRole('student');
-        $user->courses()->attach($validatedData['courses_ids']);
-        // إعادة توجيه إلى صفحة المستخدمين مع رسالة نجاح
-        return redirect('/students')->with('success', 'Student created successfully!');
-    }
-    else{
-        abort(403,'you do not have permissions to add a Student');
-    }
-}
 
     // عرض تفاصيل مستخدم معين
     public function show(User $student)
@@ -74,14 +75,14 @@ class StudentController extends Controller
     // عرض نموذج تعديل مستخدم معين
     public function edit(User $student)
     {
-        $courses=Course::all();
-        return view('students.edit', compact('student','courses'));
+        $courses = Course::all();
+        return view('students.edit', compact('student', 'courses'));
     }
 
     // تحديث مستخدم معين
     public function update(TrainerRequest $request, User $student)
     {
-        if($request->user()->hasRole('admin')){
+        if ($request->user()->hasRole('admin')) {
             $validatedData = $request->validated();
             $student->name = $validatedData['name'];
             $student->email = $validatedData['email'];
@@ -93,44 +94,50 @@ class StudentController extends Controller
             if ($request->hasFile('image')) {
                 // يمكنك حذف الصورة القديمة هنا إذا لزم الأمر
                 $file = $request->file('image');
-                $path = UploadImage($file,'images/students');    
-                $validatedData['image']= $path;
+                $path = UploadImage($file, 'images/students');
+                $validatedData['image'] = $path;
             }
             $student->save();
             $student->courses()->sync($validatedData['courses_ids']);
             return redirect()->route('students.index')->with('success', 'Student updated successfully.');
-        }
-        else{
-            abort(403,'you do not have permissions to update a Student');
+        } else {
+            abort(403, 'you do not have permissions to update a Student');
         }
     }
     // حذف مستخدم معين
     public function destroy(User $student)
     {
-        $user=User::findOrfail(Auth::user()->id);
-        if($user->hasRole('admin')){
+        $user = User::findOrfail(Auth::user()->id);
+        if ($user->hasRole('admin')) {
             // يمكنك حذف الصورة هنا إذا لزم الأمر
             $student->delete();
             return redirect()->route('students.index')->with('success', 'Student deleted successfully.');
-        }
-        else{
-            abort(403,'you do not have permissions to delete a Student');
+        } else {
+            abort(403, 'you do not have permissions to delete a Student');
         }
     }
 
+
     public function studentDashboard()
-{
-    // جلب الكورسات المسجلة للطالب
-    $myCourses = Auth::user()->courses;
-
-    // جلب جميع الكورسات المتاحة في الموقع
-    $availableCourses = Course::whereNotIn('id', Auth::user()->courses->pluck('id'))->get();
-    $categories = Category::with('courses')->get();
-
-    // إرسال البيانات إلى الـ View
-    return view('students.dashboard', compact('myCourses', 'availableCourses', 'categories'));
-}
-
+    {
+        // جلب الكورسات المسجلة للطالب
+        $myCourses = Auth::user()->courses;
+    
+        // جلب جميع الكورسات المتاحة في الموقع
+        $availableCourses = Course::whereNotIn('id', Auth::user()->courses->pluck('id'))->get();
+    
+        // جلب ملفات الكورسات المسجلة للطالب
+        $courseFiles = [];
+        foreach ($myCourses as $course) {
+            $courseFiles[$course->id] = $course->files; // افترض أن لديك علاقة `files` في نموذج `Course`
+        }
+    
+        // جلب الفئات مع الكورسات
+        $categories = Category::with('courses')->get();
+    
+        // إرسال البيانات إلى الـ View
+        return view('students.dashboard', compact('myCourses', 'availableCourses', 'categories', 'courseFiles'));
+    }
 }
 
 

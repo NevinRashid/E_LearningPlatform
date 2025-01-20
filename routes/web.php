@@ -44,7 +44,7 @@ Route::resource('comments',CommentController::class);
 Route::post('rate/{course}',[RatingController::class, 'rate'])->name('ratings.store');
 
 Route::resource('trainers', TrainerController::class);
-Route::resource('students', StudentController::class);
+Route::resource('students', StudentController::class)->middleware('check_user_role');
 
 
 

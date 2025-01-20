@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 // use Illuminate\Support\Facades\DB; 
 use Illuminate\Http\Request;
 use App\Models\Course;
-use App\Models\Trainer;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
+
 class HomeController extends Controller
 {
     /**
@@ -24,21 +27,20 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        // جلب الكورسات المتاحة
-        $availableCourses = Course::all();
 
-        // جلب المدربين (على سبيل المثال، المستخدمين الذين لديهم دور "مدرب")
-        // $trainers = DB::table('users')
-        //     ->where('role', 'trainer') // افترض أن المدربين لديهم role = 'trainer'
-        //     ->select('id', 'name', 'image') // اختر الأعمدة المطلوبة
-        //     ->get();
-
-        // جلب الفئات
-        $categories = Category::with('courses')->get();
-
-        // إرسال البيانات إلى الـ View
-        return view('home', compact('availableCourses','categories'));
-    }
+     public function index()
+     {
+         // التحقق من أن المستخدم مسجل الدخول وله دور "student"
+         if (Auth::check() && Auth::user()->hasRole('student')) {
+             return redirect()->route('student.dashboard'); // توجيه الطالب إلى صفحة الداشبورد
+         }
+     
+         $availableCourses = Course::all();
+         $categories = Category::with('courses')->get();
+         $trainers = User::whereHas('roles', function ($query) {
+             $query->where('name', 'trainer'); 
+         })->get();
+ 
+         return view('home', compact('availableCourses', 'categories','trainers'));
+     }
 }
