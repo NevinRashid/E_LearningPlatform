@@ -36,7 +36,7 @@
             "app/Helpers/getFileType.php",
             "app/Helpers/storageFolder.php",
             "app/Helpers/UploadImage.php"
-            ]
+        ]
     },
     "autoload-dev": {
         "psr-4": {

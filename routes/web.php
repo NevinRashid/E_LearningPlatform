@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TrainerController;
-
+use App\Http\Controllers\TeacherController;
+use App\Models\Course;
 use League\CommonMark\Extension\SmartPunct\DashParser;
 
 /*
@@ -37,6 +38,15 @@ Route::get('dashboard', [DashboardController::class,'getDashboardCounts'])->name
 Route::get('about-us', [DashboardController::class,'aboutUs'])->name('about');
 Route::get('/student', [StudentController::class, 'studentPage'])->name('student');
 Route::resource('categories',CategoryController::class);
+
+Route::get('dashboard', [DashboardController::class,'getDashboardCounts'])->name('dashboard')->middleware('check_user_role');
+
+Route::get('student', function () {
+    $courses = Course::all(); // أو يمكن تحديد الدورات التي تخص المعلم
+    
+    return view('student' , compact('courses'));
+})->name('student');
+
 Route::resource('courses', CourseController::class);
 Route::resource('admins', AdminController::class);
 Route::resource('files', FileController::class);
@@ -48,4 +58,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
 Route::resource('comments',CommentController::class);
 Route::resource('trainers', TrainerController::class);
 Route::resource('students', StudentController::class);
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
